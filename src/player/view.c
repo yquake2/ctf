@@ -18,8 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "g_local.h"
-#include "m_player.h"
+#include "../header/local.h"
+#include "../monster/player.h"
 
 
 

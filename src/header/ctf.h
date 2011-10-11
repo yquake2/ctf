@@ -18,6 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#ifndef CTF_CTF_H
+#define CTF_CTF_H
+
 #define CTF_VERSION			1.52
 #define CTF_VSTRING2(x) #x
 #define CTF_VSTRING(x) CTF_VSTRING2(x)
@@ -189,4 +192,6 @@ void SP_trigger_teleport (edict_t *ent);
 void SP_info_teleport_destination (edict_t *ent);
 
 void CTFSetPowerUpEffect(edict_t *ent, int def);
+
+#endif /* CTF_CTF_H */
 

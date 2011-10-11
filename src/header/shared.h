@@ -7,8 +7,8 @@
  * =======================================================================
  */
 
-#ifndef COMMON_SHARED_H
-#define COMMON_SHARED_H
+#ifndef CTF_SHARED_H
+#define CTF_SHARED_H
 
 #include <assert.h>
 #include <math.h>
@@ -1062,4 +1062,4 @@ extern int vidref_val;
 size_t verify_fread(void *, size_t, size_t, FILE *);
 size_t verify_fwrite(void *, size_t, size_t, FILE *);
 
-#endif /* COMMON_SHARED_H */
+#endif /* CTF_SHARED_H */

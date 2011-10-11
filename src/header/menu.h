@@ -18,6 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#ifndef CTF_MENU_H
+#define CTF_MENU_H
+
 enum {
 	PMENU_ALIGN_LEFT,
 	PMENU_ALIGN_CENTER,
@@ -47,4 +50,6 @@ void PMenu_Update(edict_t *ent);
 void PMenu_Next(edict_t *ent);
 void PMenu_Prev(edict_t *ent);
 void PMenu_Select(edict_t *ent);
+
+#endif
 

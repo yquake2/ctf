@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 // g_misc.c
 
-#include "g_local.h"
+#include "header/local.h"
 
 
 /*QUAKED func_group (0 0 0) ?

@@ -19,7 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 // g_local.h -- local definitions for game module
 
-#include "header/shared.h"
+#ifndef CTF_LOCAL_H
+#define CTF_LOCAL_H
+
+#include "shared.h"
 
 // define GAME_INCLUDE so that game.h does not define the
 // short, server-visible gclient_t and edict_t structures,
@@ -28,11 +31,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "game.h"
 
 //ZOID
-#include "p_menu.h"
+#include "menu.h"
 //ZOID
 
 // the "gameversion" client command will print this plus compile date
-#define	GAMEVERSION	"baseq2"
+#define	GAMEVERSION	"ctf"
 
 // protocol bytes that can be directly added to messages
 #define	svc_muzzleflash		1
@@ -1141,6 +1144,8 @@ struct edict_s
 };
 
 //ZOID
-#include "g_ctf.h"
+#include "ctf.h"
 //ZOID
+
+#endif /* CTF_LOCAL_H */
 

@@ -107,13 +107,13 @@ CTF_OBJS_ = \
 	src/g_trigger.o \
 	src/g_utils.o \
 	src/g_weapon.o \
-	src/m_move.o \
-	src/p_client.o \
-	src/p_hud.o \
-	src/p_menu.o \
-	src/p_trail.o \
-	src/p_view.o \
-	src/p_weapon.o \
+	src/menu/menu.o \
+	src/monster/move.o \
+	src/player/client.o \
+	src/player/hud.o \
+	src/player/trail.o \
+	src/player/view.o \
+	src/player/weapon.o \
 	src/shared/shared.o 
 
 # ----------
