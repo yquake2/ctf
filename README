@@ -1,0 +1,12 @@
+This is a 64 bit clean and bugfixed version of id Software's Quake II
+addon pack "Capture The Flag", developed by David 'Zoid' Kirsch. Hundred
+of type errors and strange constructs were fixed, thus this version
+should run much more stable than the old SDK version. While it may work
+with every Quake II client, the "Yamagi Quake II" client is highly
+recommended. For more Information visit http://www.yamagi.org/quake2. 
+
+Installation:
+1. Type "make" or "gmake" to compile the game.sp.
+2. Copy release/game.so to the ctf/ subfolder of your Quake II
+   installation. The CTF gamedata is part of the 3.20 point release.
+3. Start the game with "./quake2 +set game ctf".
