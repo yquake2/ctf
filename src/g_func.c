@@ -412,7 +412,15 @@ void plat_blocked (edict_t *self, edict_t *other)
 		T_Damage (other, self, self, vec3_origin, other->s.origin, vec3_origin, 100000, 1, 0, MOD_CRUSH);
 		// if it's still there, nuke it
 		if (other)
-			BecomeExplosion1 (other);
+		{
+			/* Hack for entity without it's origin near the model */
+			vec3_t save;
+			VectorCopy(other->s.origin,save);
+			VectorMA (other->absmin, 0.5, other->size, other->s.origin);
+
+			BecomeExplosion1(other);
+		}
+
 		return;
 	}
 
@@ -1081,7 +1089,15 @@ void door_blocked  (edict_t *self, edict_t *other)
 		T_Damage (other, self, self, vec3_origin, other->s.origin, vec3_origin, 100000, 1, 0, MOD_CRUSH);
 		// if it's still there, nuke it
 		if (other)
-			BecomeExplosion1 (other);
+		{
+			/* Hack for entitiy without their origin near the model */
+			vec3_t save;
+			VectorCopy(other->s.origin,save);
+			VectorMA (other->absmin, 0.5, other->size, other->s.origin);
+
+			BecomeExplosion1(other);
+		}
+
 		return;
 	}
 
@@ -1464,7 +1480,15 @@ void train_blocked (edict_t *self, edict_t *other)
 		T_Damage (other, self, self, vec3_origin, other->s.origin, vec3_origin, 100000, 1, 0, MOD_CRUSH);
 		// if it's still there, nuke it
 		if (other)
-			BecomeExplosion1 (other);
+		{
+			/* Hack for entity without an origin near the model */			
+			vec3_t save;
+			VectorCopy(other->s.origin,save);
+			VectorMA (other->absmin, 0.5, other->size, other->s.origin);
+
+			BecomeExplosion1(other);
+		}
+
 		return;
 	}
 
@@ -1941,7 +1965,15 @@ void door_secret_blocked  (edict_t *self, edict_t *other)
 		T_Damage (other, self, self, vec3_origin, other->s.origin, vec3_origin, 100000, 1, 0, MOD_CRUSH);
 		// if it's still there, nuke it
 		if (other)
-			BecomeExplosion1 (other);
+		{
+			/* Hack for entities without their origin near the model */
+			vec3_t save;
+			VectorCopy(other->s.origin,save);
+			VectorMA (other->absmin, 0.5, other->size, other->s.origin);
+
+			BecomeExplosion1(other);
+		}
+
 		return;
 	}
 
@@ -2032,6 +2064,15 @@ Kills everything inside when fired, irrespective of protection.
 void use_killbox (edict_t *self, edict_t *other, edict_t *activator)
 {
 	KillBox (self);
+
+	/* Hack to make sure that really everything is killed */
+	self->count--;
+
+	if (!self->count) 
+	{
+		self->think = G_FreeEdict;
+		self->nextthink = level.time + 1;
+	}
 }
 
 void SP_func_killbox (edict_t *ent)
