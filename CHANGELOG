@@ -1,3 +1,6 @@
+Three Wave Capture The Flag 1.02 to 1.03
+- Add CMake as an optional build system.
+- Fix bug with high velocities in vents in 32bit builds.
 
 Three Wave Capture The Flag 1.01 to 1.02
 - Port "Three Wave Capture The Flag" to Mac OS X
