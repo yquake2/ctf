@@ -1,7 +1,7 @@
 #include "header/local.h"
 
-int gibsthisframe = 0;
-int lastgibframe = 0;
+int gibsthisframe;
+int lastgibframe;
 
 /*
  * QUAKED func_group (0 0 0) ?
@@ -972,7 +972,7 @@ void
 SP_func_explosive(edict_t *self)
 {
 	if (deathmatch->value)
-	{   
+	{
 		/* auto-remove for deathmatch */
 		G_FreeEdict(self);
 		return;
@@ -1147,7 +1147,7 @@ void
 SP_misc_explobox(edict_t *self)
 {
 	if (deathmatch->value)
-	{   
+	{
 		/* auto-remove for deathmatch */
 		G_FreeEdict(self);
 		return;
@@ -1438,7 +1438,7 @@ void
 SP_misc_deadsoldier(edict_t *ent)
 {
 	if (deathmatch->value)
-	{   
+	{
 		/* auto-remove for deathmatch */
 		G_FreeEdict(ent);
 		return;
@@ -2136,7 +2136,7 @@ teleporter_touch(edict_t *self, edict_t *other, cplane_t *plane,
 	/* set angles */
 	for (i = 0; i < 3; i++)
 	{
-		other->client->ps.pmove.delta_angles[i] = 
+		other->client->ps.pmove.delta_angles[i] =
 			ANGLE2SHORT(dest->s.angles[i] - other->client->resp.cmd_angles[i]);
 	}
 

@@ -279,7 +279,7 @@ EndDMLevel(void)
 		ent = G_Find(NULL, FOFS(classname), "target_changelevel");
 
 		if (!ent)
-		{   
+		{
 			/* the map designer didn't include a changelevel,
 			   so create a fake ent that goes back to the same level */
 			BeginIntermission(CreateTargetChangeLevel(level.mapname));
@@ -384,6 +384,9 @@ ExitLevel(void)
 			ent->health = ent->client->pers.max_health;
 		}
 	}
+
+	gibsthisframe = 0;
+	lastgibframe = 0;
 }
 
 /*
