@@ -6,7 +6,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # CMake project configuration
-project(yquake2-xatrix)
+project(yquake2-ctf)
 
 # Enforce compiler flags (GCC / Clang compatible, yquake2
 # won't build with another compiler anyways)
@@ -20,9 +20,9 @@ string(REPLACE "-O3" "-O2" CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
 
 # Linker Flags
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	list(APPEND XatrixLinkerFlags "-lm")
+	list(APPEND CtfLinkerFlags "-lm")
 else()
-	list(APPEND XatrixLinkerFlags "-lm -rdynamic")
+	list(APPEND CtfLinkerFlags "-lm -rdynamic")
 endif()
 
 set(Ctf-Source
