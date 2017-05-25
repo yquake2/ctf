@@ -1,4 +1,8 @@
 Three Wave Capture The Flag 1.03 to 1.04
+- Some bugfixes to monster AI, mostly to keep the source
+  in sync with baseq2 and the other addons.
+
+Three Wave Capture The Flag 1.03 to 1.04
 - Fix CMake support
 - Make gibs and debris SOLID_BBOX so they move on entities.
 - Switch from an arch whitelist to an "all archs are supported"
