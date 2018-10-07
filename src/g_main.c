@@ -386,7 +386,7 @@ ExitLevel(void)
 	}
 
 	gibsthisframe = 0;
-	lastgibframe = 0;
+	debristhisframe = 0;
 }
 
 /*
@@ -400,6 +400,9 @@ G_RunFrame(void)
 
 	level.framenum++;
 	level.time = level.framenum * FRAMETIME;
+
+	gibsthisframe = 0;
+	debristhisframe = 0;
 
 	/* choose a client for monsters to target this frame */
 	AI_SetSightClient();

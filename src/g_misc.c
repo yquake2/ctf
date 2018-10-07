@@ -1,7 +1,7 @@
 #include "header/local.h"
 
+int debristhisframe;
 int gibsthisframe;
-int lastgibframe;
 
 /*
  * QUAKED func_group (0 0 0) ?
@@ -139,15 +139,9 @@ ThrowGib(edict_t *self, char *gibname, int damage, int type)
 	vec3_t size;
 	float vscale;
 
-	if (level.framenum > lastgibframe)
-	{
-		gibsthisframe = 0;
-		lastgibframe = level.framenum;
-	}
-
 	gibsthisframe++;
 
-	if (gibsthisframe > 20)
+	if (gibsthisframe > MAX_GIBS)
 	{
 		return;
 	}
@@ -166,6 +160,7 @@ ThrowGib(edict_t *self, char *gibname, int damage, int type)
 	gib->flags |= FL_NO_KNOCKBACK;
 	gib->takedamage = DAMAGE_YES;
 	gib->die = gib_die;
+	gib->health = 250;
 
 	if (type == GIB_ORGANIC)
 	{
@@ -293,15 +288,9 @@ ThrowDebris(edict_t *self, char *modelname, float speed, vec3_t origin)
 	edict_t *chunk;
 	vec3_t v;
 
-	if (level.framenum > lastgibframe)
-	{
-		gibsthisframe = 0;
-		lastgibframe = level.framenum;
-	}
+	debristhisframe++;
 
-	gibsthisframe++;
-
-	if (gibsthisframe > 20)
+	if (debristhisframe > MAX_DEBRIS)
 	{
 		return;
 	}
@@ -325,6 +314,7 @@ ThrowDebris(edict_t *self, char *modelname, float speed, vec3_t origin)
 	chunk->classname = "debris";
 	chunk->takedamage = DAMAGE_YES;
 	chunk->die = debris_die;
+	chunk->health = 250;
 	gi.linkentity(chunk);
 }
 
