@@ -29,6 +29,22 @@ ifneq (,$(findstring MINGW,$(OSTYPE)))
 OSTYPE := Windows
 endif
 
+# On Windows / MinGW $(CC) is undefined by default.
+ifeq ($(YQ2_OSTYPE),Windows)
+CC := gcc
+endif
+
+# Detect the compiler
+ifeq ($(shell $(CC) -v 2>&1 | grep -c "clang version"), 1)
+COMPILER := clang
+COMPILERVER := $(shell $(CC)  -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/')
+else ifeq ($(shell $(CC) -v 2>&1 | grep -c -E "(gcc version|gcc-Version)"), 1)
+COMPILER := gcc
+COMPILERVER := $(shell $(CC)  -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/')
+else
+COMPILER := unknown
+endif
+
 # ----------
 
 # Base CFLAGS. 
@@ -55,6 +71,22 @@ CFLAGS := -O2 -fno-strict-aliasing -fomit-frame-pointer \
 else
 CFLAGS := -O2 -fno-strict-aliasing -fomit-frame-pointer \
 		  -Wall -pipe -g -MMD -fwrapv
+endif
+
+# ----------
+
+# Switch of some annoying warnings.
+ifeq ($(COMPILER), clang)
+	# -Wno-missing-braces because otherwise clang complains
+	#  about totally valid 'vec3_t bla = {0}' constructs.
+	CFLAGS += -Wno-missing-braces
+else ifeq ($(COMPILER), gcc)
+	# GCC 8.0 or higher.
+	ifeq ($(shell test $(COMPILERVER) -ge 80000; echo $$?),0)
+	    # -Wno-format-truncation and -Wno-format-overflow
+		# because GCC spams about 50 false positives.
+    	CFLAGS += -Wno-format-truncation -Wno-format-overflow
+	endif
 endif
 
 # ----------
