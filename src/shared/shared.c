@@ -1072,6 +1072,43 @@ Q_strcasecmp(char *s1, char *s2)
 	return Q_strncasecmp(s1, s2, 99999);
 }
 
+int
+Q_strlcpy(char *dst, const char *src, int size)
+{
+	const char *s = src;
+
+	while (*s)
+	{
+		if (size > 1)
+		{
+			*dst++ = *s;
+			size--;
+		}
+		s++;
+	}
+	if (size > 0)
+	{
+		*dst = '\0';
+	}
+
+	return s - src;
+}
+
+int
+Q_strlcat(char *dst, const char *src, int size)
+{
+	char *d = dst;
+
+	while (size > 0 && *d)
+	{
+		size--;
+		d++;
+	}
+
+	return (d - dst) + Q_strlcpy(d, src, size);
+}
+
+
 void
 Com_sprintf(char *dest, int size, char *fmt, ...)
 {
