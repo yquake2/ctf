@@ -9,7 +9,7 @@ install:
   - cmake --version
   - cmake c:\projects\ctf
 
-build_script: msbuild "C:\projects\ctf\cmake_build\%CMAKE_PROJECT_NAME%.sln"
+build_script: msbuild "C:\projects\ctf\cmake_build\yquake2-ctf.sln"
 
 artifacts:
  - path: cmake_build\Release\**\*.*
