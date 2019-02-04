@@ -1,4 +1,8 @@
-Three Wave Capture The Flag 1.03 to 1.04
+Three Wave Capture The Flag 1.05 to 1.06
+- Small bugfixes.
+- Better compatibility with the current Windows build environment.
+
+Three Wave Capture The Flag 1.04 to 1.05
 - Some bugfixes to monster AI, mostly to keep the source
   in sync with baseq2 and the other addons.
 
