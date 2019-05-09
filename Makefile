@@ -143,25 +143,25 @@ ctf:
 	@echo "===> Building game.dll"
 	$(Q)mkdir -p release
 	$(MAKE) release/game.dll
-
-build/%.o: %.c
-	@echo "===> CC $<"
-	$(Q)mkdir -p $(@D)
-	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
+else ifeq ($(OSTYPE), Darwin)
+rogue:
+	@echo "===> Building game.dylib"
+	${Q}mkdir -p release
+	$(MAKE) release/game.dylib
 else
 ctf:
 	@echo "===> Building game.so"
 	$(Q)mkdir -p release
 	$(MAKE) release/game.so
 
+release/game.so : CFLAGS += -fPIC
+endif
+ 
 build/%.o: %.c
 	@echo "===> CC $<"
 	$(Q)mkdir -p $(@D)
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
 
-release/game.so : CFLAGS += -fPIC
-endif
- 
 # ----------
 
 CTF_OBJS_ = \
