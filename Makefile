@@ -97,7 +97,7 @@ LDFLAGS := -shared -arch i386 -arch x86_64
 else ifeq ($(OSTYPE), Windows)
 LDFLAGS := -shared -static-libgcc
 else
-LDFLAGS := -shared
+LDFLAGS := -shared -lm
 endif
 
 # ----------
@@ -219,7 +219,7 @@ release/game.dylib : $(CTF_OBJS)
 else
 release/game.so : $(CTF_OBJS)
 	@echo "===> LD $@"
-	$(Q)$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS) -lm
+	$(Q)$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS)
 endif
  
 # ----------
