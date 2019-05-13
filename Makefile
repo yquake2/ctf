@@ -219,7 +219,7 @@ release/game.dylib : $(CTF_OBJS)
 else
 release/game.so : $(CTF_OBJS)
 	@echo "===> LD $@"
-	$(Q)$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS)
+	$(Q)$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS) -lm
 endif
  
 # ----------
