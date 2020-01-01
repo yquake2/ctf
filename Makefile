@@ -67,7 +67,7 @@ endif
 # -MMD to generate header dependencies.
 ifeq ($(OSTYPE), Darwin)
 CFLAGS := -O2 -fno-strict-aliasing -fomit-frame-pointer \
-		  -Wall -pipe -g -fwrapv -arch i386 -arch x86_64
+		  -Wall -pipe -g -fwrapv -arch x86_64
 else
 CFLAGS := -O2 -fno-strict-aliasing -fomit-frame-pointer \
 		  -Wall -pipe -g -MMD -fwrapv
@@ -93,7 +93,7 @@ endif
 
 # Base LDFLAGS.
 ifeq ($(OSTYPE), Darwin)
-LDFLAGS := -shared -arch i386 -arch x86_64 
+LDFLAGS := -shared -arch x86_64
 else ifeq ($(OSTYPE), Windows)
 LDFLAGS := -shared -static-libgcc
 else
@@ -144,7 +144,7 @@ ctf:
 	$(Q)mkdir -p release
 	$(MAKE) release/game.dll
 else ifeq ($(OSTYPE), Darwin)
-rogue:
+ctf:
 	@echo "===> Building game.dylib"
 	${Q}mkdir -p release
 	$(MAKE) release/game.dylib
@@ -213,6 +213,7 @@ ifeq ($(OSTYPE), Windows)
 release/game.dll : $(CTF_OBJS)
 	@echo "===> LD $@"
 	$(Q)$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS)
+else ifeq ($(OSTYPE), Darwin)
 release/game.dylib : $(CTF_OBJS)
 	@echo "===> LD $@"
 	${Q}$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS)
