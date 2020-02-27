@@ -212,15 +212,15 @@ CTF_DEPS= $(CTF_OBJS:.o=.d)
 ifeq ($(OSTYPE), Windows)
 release/game.dll : $(CTF_OBJS)
 	@echo "===> LD $@"
-	$(Q)$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS)
+	$(Q)$(CC) -o $@ $(CTF_OBJS) $(LDFLAGS)
 else ifeq ($(OSTYPE), Darwin)
 release/game.dylib : $(CTF_OBJS)
 	@echo "===> LD $@"
-	${Q}$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS)
+	${Q}$(CC) -o $@ $(CTF_OBJS) $(LDFLAGS)
 else
 release/game.so : $(CTF_OBJS)
 	@echo "===> LD $@"
-	$(Q)$(CC) $(LDFLAGS) -o $@ $(CTF_OBJS)
+	$(Q)$(CC) -o $@ $(CTF_OBJS) $(LDFLAGS)
 endif
  
 # ----------
