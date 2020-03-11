@@ -30,7 +30,7 @@ OSTYPE := Windows
 endif
 
 # On Windows / MinGW $(CC) is undefined by default.
-ifeq ($(YQ2_OSTYPE),Windows)
+ifeq ($(OSTYPE),Windows)
 CC := gcc
 endif
 
