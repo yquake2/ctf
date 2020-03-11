@@ -92,13 +92,16 @@ endif
 
 # ----------
 
-# Base LDFLAGS.
+# Base LDFLAGS, none by default.
+LDFLAGS ?=
+
+# Required LDFLAGS to build a game module.
 ifeq ($(OSTYPE), Darwin)
-LDFLAGS := -shared -arch x86_64
+LDFLAGS += -shared -arch x86_64
 else ifeq ($(OSTYPE), Windows)
-LDFLAGS := -shared -static-libgcc
+LDFLAGS += -shared -static-libgcc
 else
-LDFLAGS := -shared -lm
+LDFLAGS += -shared -lm
 endif
 
 # ----------
