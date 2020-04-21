@@ -146,7 +146,7 @@ override LDFLAGS += -shared
 # Required libaries
 ifeq ($(YQ2_OSTYPE), Darwin)
 override LDFLAGS += -arch $(YQ2_ARCH)
-else ifeq ($(OSTYPE), Windows)
+else ifeq ($(YQ2_OSTYPE), Windows)
 override LDFLAGS += -static-libgcc
 else
 override LDFLAGS += -lm
@@ -183,12 +183,12 @@ clean:
 # ----------
 
 # The ctf game
-ifeq ($(OSTYPE), Windows)
+ifeq ($(YQ2_OSTYPE), Windows)
 ctf:
 	@echo "===> Building game.dll"
 	$(Q)mkdir -p release
 	$(MAKE) release/game.dll
-else ifeq ($(OSTYPE), Darwin)
+else ifeq ($(YQ2_OSTYPE), Darwin)
 ctf:
 	@echo "===> Building game.dylib"
 	${Q}mkdir -p release
