@@ -1718,8 +1718,7 @@ CTFGrappleDrawCable(edict_t *self)
 
 	AngleVectors(self->owner->client->v_angle, f, r, NULL);
 	VectorSet(offset, 16, 16, self->owner->viewheight - 8);
-	P_ProjectSource(self->owner->client, self->owner->s.origin,
-			offset, f, r, start);
+	P_ProjectSource(self->owner, offset, f, r, start);
 
 	VectorSubtract(start, self->owner->s.origin, offset);
 
@@ -1903,7 +1902,7 @@ CTFGrappleFire(edict_t *ent, vec3_t g_offset, int damage, int effect)
 	AngleVectors(ent->client->v_angle, forward, right, NULL);
 	VectorSet(offset, 24, 8, ent->viewheight - 8 + 2);
 	VectorAdd(offset, g_offset, offset);
-	P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
+	P_ProjectSource(ent, offset, forward, right, start);
 
 	VectorScale(forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;

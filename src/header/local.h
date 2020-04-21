@@ -541,6 +541,8 @@ extern cvar_t *flood_waitdelay;
 
 extern cvar_t *sv_maplist;
 
+extern cvar_t *aimfix;
+
 #define world (&g_edicts[0])
 
 /* item spawnflags */
@@ -760,7 +762,7 @@ void DeathmatchScoreboardMessage(edict_t *client, edict_t *killer);
 
 /* g_pweapon.c */
 void PlayerNoise(edict_t *who, vec3_t where, int type);
-void P_ProjectSource(gclient_t *client, vec3_t point, vec3_t distance,
+void P_ProjectSource(edict_t *ent, vec3_t distance,
 		vec3_t forward, vec3_t right, vec3_t result);
 void Weapon_Generic(edict_t *ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST,
 		int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST, int *pause_frames,
