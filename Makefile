@@ -6,8 +6,8 @@
 #                                                       #
 # Dependencies:                                         #
 # - None, but you need a Quake II to play.              #
-#   While in theorie every one should work              #
-#   Yamagi Quake II ist recommended.                    #
+#   While in theory every one should work              #
+#   Yamagi Quake II is recommended.                    #
 #                                                       #
 # Platforms:                                            #
 # - FreeBSD                                             #
@@ -91,7 +91,7 @@ endif
 
 # ----------
 
-# Switch of some annoying warnings.
+# Switch off some annoying warnings.
 ifeq ($(COMPILER), clang)
 	# -Wno-missing-braces because otherwise clang complains
 	#  about totally valid 'vec3_t bla = {0}' constructs.
@@ -112,7 +112,7 @@ override CFLAGS += -DYQ2OSTYPE=\"$(YQ2_OSTYPE)\" -DYQ2ARCH=\"$(YQ2_ARCH)\"
 
 # ----------
 
-# For reproduceable builds, look here for details:
+# For reproducible builds, look here for details:
 # https://reproducible-builds.org/specs/source-date-epoch/
 ifdef SOURCE_DATE_EPOCH
 CFLAGS += -DBUILD_DATE=\"$(shell date --utc --date="@${SOURCE_DATE_EPOCH}" +"%b %_d %Y" | sed -e 's/ /\\ /g')\"
@@ -143,7 +143,7 @@ LDFLAGS ?=
 # It's a shared library.
 override LDFLAGS += -shared
 
-# Required libaries
+# Required libraries
 ifeq ($(YQ2_OSTYPE), Darwin)
 override LDFLAGS += -arch $(YQ2_ARCH)
 else ifeq ($(YQ2_OSTYPE), Windows)
