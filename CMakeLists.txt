@@ -48,7 +48,7 @@ set(Ctf-Source
 	src/g_misc.c
 	src/g_monster.c
 	src/g_phys.c
-	src/g_save.c
+	src/savegame/savegame.c
 	src/g_spawn.c
 	src/g_svcmds.c
 	src/g_target.c
