@@ -270,7 +270,7 @@ ED_CallSpawn(edict_t *ent)
 		}
 
 		if (!strcmp(item->classname, ent->classname))
-		{   
+		{
 			/* found it */
 			SpawnItem(ent, item);
 			return;
@@ -281,7 +281,7 @@ ED_CallSpawn(edict_t *ent)
 	for (s = spawns; s->name; s++)
 	{
 		if (!strcmp(s->name, ent->classname))
-		{   
+		{
 			/* found it */
 			s->spawn(ent);
 			return;
@@ -331,8 +331,8 @@ ED_NewString(char *string)
  * Takes a key/value pair and sets
  * the binary values in an edict
  */
-void
-ED_ParseField(char *key, char *value, edict_t *ent)
+static void
+ED_ParseField(char *key, const char *value, edict_t *ent)
 {
 	field_t *f;
 	byte *b;
@@ -342,7 +342,7 @@ ED_ParseField(char *key, char *value, edict_t *ent)
 	for (f = fields; f->name; f++)
 	{
 		if (!Q_stricmp(f->name, key))
-		{   
+		{
 			/* found it */
 			if (f->flags & FFL_SPAWNTEMP)
 			{
@@ -399,7 +399,6 @@ ED_ParseEdict(char *data, edict_t *ent)
 {
 	qboolean init;
 	char keyname[256];
-	char *com_token;
 
 	init = false;
 	memset(&st, 0, sizeof(st));
@@ -407,6 +406,8 @@ ED_ParseEdict(char *data, edict_t *ent)
 	/* go through all the dictionary pairs */
 	while (1)
 	{
+		const char *com_token;
+
 		/* parse key */
 		com_token = COM_Parse(&data);
 
@@ -534,7 +535,6 @@ SpawnEntities(char *mapname, char *entities, char *spawnpoint)
 {
 	edict_t *ent;
 	int inhibit;
-	char *com_token;
 	int i;
 	float skill_level;
 
@@ -577,6 +577,8 @@ SpawnEntities(char *mapname, char *entities, char *spawnpoint)
 	/* parse ents */
 	while (1)
 	{
+		const char *com_token;
+
 		/* parse the opening brace */
 		com_token = COM_Parse(&entities);
 
@@ -609,7 +611,7 @@ SpawnEntities(char *mapname, char *entities, char *spawnpoint)
 			ent->spawnflags &= ~SPAWNFLAG_NOT_HARD;
 		}
 
-		/* remove things (except the world) from 
+		/* remove things (except the world) from
 		   different skill levels or deathmatch */
 		if (ent != g_edicts)
 		{

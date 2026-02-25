@@ -106,13 +106,9 @@ ShutdownGame(void)
 }
 
 /*
-=================
-GetGameAPI
-
-Returns a pointer to the structure with all entry points
-and global variables
-=================
-*/
+ * Returns a pointer to the structure with
+ * all entry points and global variables
+ */
 Q2_DLL_EXPORTED game_export_t *
 GetGameAPI(game_import_t *import)
 {
@@ -145,7 +141,7 @@ GetGameAPI(game_import_t *import)
 }
 
 void
-Sys_Error(char *error, ...)
+Sys_Error(const char *error, ...)
 {
 	va_list argptr;
 	char text[1024];
@@ -154,11 +150,11 @@ Sys_Error(char *error, ...)
 	vsprintf(text, error, argptr);
 	va_end(argptr);
 
-	gi.error(ERR_FATAL, "%s", text);
+	gi.error("%s", text);
 }
 
 void
-Com_Printf(char *msg, ...)
+Com_Printf(const char *msg, ...)
 {
 	va_list argptr;
 	char text[1024];
@@ -179,7 +175,7 @@ ClientEndServerFrames(void)
 	edict_t *ent;
 
 	/* calc the player views now that all
-	   pushing  and damage has been added */
+	   pushing and damage has been added */
 	for (i = 0; i < maxclients->value; i++)
 	{
 		ent = g_edicts + 1 + i;
@@ -200,6 +196,11 @@ edict_t *
 CreateTargetChangeLevel(char *map)
 {
 	edict_t *ent;
+
+	if (!map)
+	{
+		return NULL;
+	}
 
 	ent = G_Spawn();
 	ent->classname = "target_changelevel";
