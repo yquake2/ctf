@@ -36,55 +36,7 @@
 #endif
 
 field_t fields[] = {
-	{"classname", FOFS(classname), F_LSTRING},
-	{"origin", FOFS(s.origin), F_VECTOR},
-	{"model", FOFS(model), F_LSTRING},
-	{"spawnflags", FOFS(spawnflags), F_INT},
-	{"speed", FOFS(speed), F_FLOAT},
-	{"accel", FOFS(accel), F_FLOAT},
-	{"decel", FOFS(decel), F_FLOAT},
-	{"target", FOFS(target), F_LSTRING},
-	{"targetname", FOFS(targetname), F_LSTRING},
-	{"pathtarget", FOFS(pathtarget), F_LSTRING},
-	{"deathtarget", FOFS(deathtarget), F_LSTRING},
-	{"killtarget", FOFS(killtarget), F_LSTRING},
-	{"combattarget", FOFS(combattarget), F_LSTRING},
-	{"message", FOFS(message), F_LSTRING},
-	{"team", FOFS(team), F_LSTRING},
-	{"wait", FOFS(wait), F_FLOAT},
-	{"delay", FOFS(delay), F_FLOAT},
-	{"random", FOFS(random), F_FLOAT},
-	{"move_origin", FOFS(move_origin), F_VECTOR},
-	{"move_angles", FOFS(move_angles), F_VECTOR},
-	{"style", FOFS(style), F_INT},
-	{"count", FOFS(count), F_INT},
-	{"health", FOFS(health), F_INT},
-	{"sounds", FOFS(sounds), F_INT},
-	{"light", 0, F_IGNORE},
-	{"dmg", FOFS(dmg), F_INT},
-	{"angles", FOFS(s.angles), F_VECTOR},
-	{"angle", FOFS(s.angles), F_ANGLEHACK},
-	{"mass", FOFS(mass), F_INT},
-	{"volume", FOFS(volume), F_FLOAT},
-	{"attenuation", FOFS(attenuation), F_FLOAT},
-	{"map", FOFS(map), F_LSTRING},
-
-	/* temp spawn vars -- only valid when the spawn function is called */
-	{"lip", STOFS(lip), F_INT, FFL_SPAWNTEMP},
-	{"distance", STOFS(distance), F_INT, FFL_SPAWNTEMP},
-	{"height", STOFS(height), F_INT, FFL_SPAWNTEMP},
-	{"noise", STOFS(noise), F_LSTRING, FFL_SPAWNTEMP},
-	{"pausetime", STOFS(pausetime), F_FLOAT, FFL_SPAWNTEMP},
-	{"item", STOFS(item), F_LSTRING, FFL_SPAWNTEMP},
-	{"gravity", STOFS(gravity), F_LSTRING, FFL_SPAWNTEMP},
-	{"sky", STOFS(sky), F_LSTRING, FFL_SPAWNTEMP},
-	{"skyrotate", STOFS(skyrotate), F_FLOAT, FFL_SPAWNTEMP},
-	{"skyaxis", STOFS(skyaxis), F_VECTOR, FFL_SPAWNTEMP},
-	{"minyaw", STOFS(minyaw), F_FLOAT, FFL_SPAWNTEMP},
-	{"maxyaw", STOFS(maxyaw), F_FLOAT, FFL_SPAWNTEMP},
-	{"minpitch", STOFS(minpitch), F_FLOAT, FFL_SPAWNTEMP},
-	{"maxpitch", STOFS(maxpitch), F_FLOAT, FFL_SPAWNTEMP},
-	{"nextmap", STOFS(nextmap), F_LSTRING, FFL_SPAWNTEMP}
+	#include "tables/fields.h"
 };
 
 field_t savefields[] = {
@@ -120,23 +72,20 @@ field_t savefields[] = {
 	{NULL, 0, F_INT}
 };
 
-field_t levelfields[] = {
-	{"", LLOFS(changemap), F_LSTRING},
-
-	{"", LLOFS(sight_client), F_EDICT},
-	{"", LLOFS(sight_entity), F_EDICT},
-	{"", LLOFS(sound_entity), F_EDICT},
-	{"", LLOFS(sound2_entity), F_EDICT},
-
-	{NULL, 0, F_INT}
+/*
+ * Level fields to
+ * be saved
+ */
+static field_t levelfields[] = {
+	#include "tables/levelfields.h"
 };
 
-field_t clientfields[] = {
-	{"", CLOFS(pers.weapon), F_ITEM},
-	{"", CLOFS(pers.lastweapon), F_ITEM},
-	{"", CLOFS(newweapon), F_ITEM},
-
-	{NULL, 0, F_INT}
+/*
+ * Client fields to
+ * be saved
+ */
+static field_t clientfields[] = {
+	#include "tables/clientfields.h"
 };
 
 /*
