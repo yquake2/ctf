@@ -232,7 +232,7 @@ CTF_OBJS_ = \
 	src/g_misc.o \
 	src/g_monster.o \
 	src/g_phys.o \
-	src/g_save.o \
+	src/savegame/savegame.o \
 	src/g_spawn.o \
 	src/g_svcmds.o \
 	src/g_target.o \
