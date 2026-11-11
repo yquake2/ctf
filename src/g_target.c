@@ -160,11 +160,11 @@ Use_Target_Help(edict_t *ent, edict_t *other, edict_t *activator)
 {
 	if (ent->spawnflags & 1)
 	{
-		strncpy(game.helpmessage1, ent->message, sizeof(game.helpmessage2) - 1);
+		Q_strlcpy(game.helpmessage1, ent->message, sizeof(game.helpmessage2) - 1);
 	}
 	else
 	{
-		strncpy(game.helpmessage2, ent->message, sizeof(game.helpmessage1) - 1);
+		Q_strlcpy(game.helpmessage2, ent->message, sizeof(game.helpmessage1) - 1);
 	}
 
 	game.helpchanged++;

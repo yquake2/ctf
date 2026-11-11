@@ -3315,11 +3315,11 @@ SetLevelName(pmenu_t *p)
 
 	if (g_edicts[0].message)
 	{
-		strncpy(levelname + 1, g_edicts[0].message, sizeof(levelname) - 2);
+		Q_strlcpy(levelname + 1, g_edicts[0].message, sizeof(levelname) - 2);
 	}
 	else
 	{
-		strncpy(levelname + 1, level.mapname, sizeof(levelname) - 2);
+		Q_strlcpy(levelname + 1, level.mapname, sizeof(levelname) - 2);
 	}
 
 	levelname[sizeof(levelname) - 1] = 0;
@@ -3375,7 +3375,7 @@ CTFBeginElection(edict_t *ent, elect_t type, char *msg)
 	ctfgame.evotes = 0;
 	ctfgame.needvotes = (count * electpercentage->value) / 100;
 	ctfgame.electtime = level.time + 20; /* twenty seconds for election */
-	strncpy(ctfgame.emsg, msg, sizeof(ctfgame.emsg) - 1);
+	Q_strlcpy(ctfgame.emsg, msg, sizeof(ctfgame.emsg) - 1);
 
 	/* tell everyone */
 	gi.bprintf(PRINT_CHAT, "%s\n", ctfgame.emsg);
@@ -3628,7 +3628,7 @@ CTFWinElection(void)
 		case ELECT_MAP:
 			gi.bprintf(PRINT_HIGH, "%s is warping to level %s.\n",
 				ctfgame.etarget->client->pers.netname, ctfgame.elevel);
-			strncpy(level.forcemap, ctfgame.elevel, sizeof(level.forcemap) - 1);
+			Q_strlcpy(level.forcemap, ctfgame.elevel, sizeof(level.forcemap) - 1);
 			EndDMLevel();
 			break;
 		default:
@@ -5280,7 +5280,7 @@ CTFWarp(edict_t *ent)
 	{
 		gi.bprintf(PRINT_HIGH, "%s is warping to level %s.\n",
 				ent->client->pers.netname, gi.argv(1));
-		strncpy(level.forcemap, gi.argv(1), sizeof(level.forcemap) - 1);
+		Q_strlcpy(level.forcemap, gi.argv(1), sizeof(level.forcemap) - 1);
 		EndDMLevel();
 		return;
 	}
@@ -5290,7 +5290,7 @@ CTFWarp(edict_t *ent)
 
 	if (CTFBeginElection(ent, ELECT_MAP, text))
 	{
-		strncpy(ctfgame.elevel, gi.argv(1), sizeof(ctfgame.elevel) - 1);
+		Q_strlcpy(ctfgame.elevel, gi.argv(1), sizeof(ctfgame.elevel) - 1);
 	}
 }
 
