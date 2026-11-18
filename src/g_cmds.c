@@ -88,7 +88,7 @@ OnSameTeam(const edict_t *ent1, const edict_t *ent2)
 	return false;
 }
 
-void
+static void
 SelectNextItem(edict_t *ent, int itflags)
 {
 	gclient_t *cl;
@@ -137,7 +137,7 @@ SelectNextItem(edict_t *ent, int itflags)
 	cl->pers.selected_item = -1;
 }
 
-void
+static void
 SelectPrevItem(edict_t *ent, int itflags)
 {
 	gclient_t *cl;

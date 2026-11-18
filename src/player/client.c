@@ -174,7 +174,7 @@ IsNeutral(const edict_t *ent)
 	return false;
 }
 
-void
+static void
 ClientObituary(edict_t *self, const edict_t *inflictor /* unused */,
 		edict_t *attacker)
 {
@@ -427,7 +427,7 @@ ClientObituary(edict_t *self, const edict_t *inflictor /* unused */,
 	}
 }
 
-void
+static void
 TossClientWeapon(edict_t *self)
 {
 	const gitem_t *item;
@@ -497,7 +497,7 @@ TossClientWeapon(edict_t *self)
 	}
 }
 
-void
+static void
 LookAtKiller(edict_t *self, edict_t *inflictor, edict_t *attacker)
 {
 	vec3_t dir;
@@ -1018,7 +1018,7 @@ SelectCoopSpawnPoint(const edict_t *ent)
 /*
  * Chooses a player start, deathmatch start, coop start, etc
  */
-void
+static void
 SelectSpawnPoint(const edict_t *ent, vec3_t origin, vec3_t angles)
 {
 	edict_t *spot = NULL;
@@ -1155,7 +1155,7 @@ InitBodyQue(void)
 	}
 }
 
-void
+static void
 body_die(edict_t *self, edict_t *inflictor /* unused */,
 		edict_t *attacker /* unused */, int damage,
 		const vec3_t point /* unused */)
@@ -1184,7 +1184,7 @@ body_die(edict_t *self, edict_t *inflictor /* unused */,
 	}
 }
 
-void
+static void
 CopyToBodyQue(edict_t *ent)
 {
 	edict_t *body;
@@ -1442,7 +1442,7 @@ PutClientInServer(edict_t *ent)
  * so clear everything out before
  * starting them.
  */
-void
+static void
 ClientBeginDeathmatch(edict_t *ent)
 {
 	if (!ent)
@@ -1754,7 +1754,8 @@ PM_trace(vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end)
 	}
 }
 
-unsigned
+#if 0
+static unsigned
 CheckBlock(void *b, int c)
 {
 	int v, i;
@@ -1774,7 +1775,7 @@ CheckBlock(void *b, int c)
 	return v;
 }
 
-void
+static void
 PrintPmove(pmove_t *pm)
 {
 	unsigned c1, c2;
@@ -1788,6 +1789,7 @@ PrintPmove(pmove_t *pm)
 	c2 = CheckBlock(&pm->cmd, sizeof(pm->cmd));
 	Com_Printf("sv %3i:%i %i\n", pm->cmd.impulse, c1, c2);
 }
+#endif
 
 /*
  * This will be called once for each client frame, which will

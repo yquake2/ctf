@@ -45,6 +45,7 @@
 #define svc_temp_entity 3
 #define svc_layout 4
 #define svc_inventory 5
+#define svc_stufftext 11
 
 /* ================================================================== */
 
@@ -1141,5 +1142,13 @@ struct edict_s
 
 #include "ctf.h"
 
-#endif /* CTF_LOCAL_H */
+/*
+ * Uncomment for check that exported functions declarations are same as in
+ * implementation. (-Wmissing-prototypes )
+ *
+ */
+#if DEBUG
+#include "../savegame/tables/spawnfunc_decs.h"
+#endif
 
+#endif /* CTF_LOCAL_H */

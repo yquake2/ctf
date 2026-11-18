@@ -26,7 +26,7 @@
 
 #include "header/local.h"
 
-void
+static void
 InitTrigger(edict_t *self)
 {
 	if (!VectorCompare(self->s.angles, vec3_origin))
@@ -44,13 +44,13 @@ InitTrigger(edict_t *self)
  * The wait time has passed, so set
  * back up for another activation
  */
-void
+static void
 multi_wait(edict_t *ent)
 {
 	ent->nextthink = 0;
 }
 
-void
+static void
 multi_trigger(edict_t *ent)
 {
 	if (ent->nextthink)
@@ -75,14 +75,14 @@ multi_trigger(edict_t *ent)
 	}
 }
 
-void
+static void
 Use_Multi(edict_t *ent, edict_t *other, edict_t *activator)
 {
 	ent->activator = activator;
 	multi_trigger(ent);
 }
 
-void
+static void
 Touch_Multi(edict_t *self, edict_t *other, const cplane_t *plane, const csurface_t *surf)
 {
 	if (other->client)
@@ -134,7 +134,7 @@ Touch_Multi(edict_t *self, edict_t *other, const cplane_t *plane, const csurface
  *
  * set "message" to text string
  */
-void
+static void
 trigger_enable(edict_t *self, edict_t *other, edict_t *activator)
 {
 	self->solid = SOLID_TRIGGER;
@@ -227,7 +227,7 @@ SP_trigger_once(edict_t *ent)
  * QUAKED trigger_relay (.5 .5 .5) (-8 -8 -8) (8 8 8)
  * This fixed size trigger cannot be touched, it can only be fired by other events.
  */
-void
+static void
 trigger_relay_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	G_UseTargets(self, activator);
@@ -252,7 +252,7 @@ SP_trigger_relay(edict_t *self)
  * A relay trigger that only fires it's targets if player has the proper key.
  * Use "item" to specify the required key, for example "key_data_cd"
  */
-void
+static void
 trigger_key_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	int index;
@@ -401,7 +401,7 @@ SP_trigger_key(edict_t *self)
  * After the counter has been triggered "count" times (default 2), it
  * will fire all of it's targets and remove itself.
  */
-void
+static void
 trigger_counter_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (self->count == 0)
@@ -553,7 +553,7 @@ SP_trigger_push(edict_t *self)
  * "dmg"			default 5 (whole numbers only)
  *
  */
-void
+static void
 hurt_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (self->solid == SOLID_NOT)
@@ -573,7 +573,7 @@ hurt_use(edict_t *self, edict_t *other, edict_t *activator)
 	}
 }
 
-void
+static void
 hurt_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurface_t *surf)
 {
 	int dflags;
@@ -663,7 +663,7 @@ SP_trigger_hurt(edict_t *self)
  * gravity for the level.
  */
 
-void
+static void
 trigger_gravity_touch(edict_t *self, edict_t *other, const cplane_t *plane,
 		const csurface_t *surf)
 {
@@ -699,7 +699,7 @@ SP_trigger_gravity(edict_t *self)
  * "speed" default to 200, the speed thrown forward
  * "height" default to 200, the speed thrown upwards
  */
-void
+static void
 trigger_monsterjump_touch(edict_t *self, edict_t *other, const cplane_t *plane,
 		const csurface_t *surf)
 {

@@ -242,7 +242,7 @@ M_CatagorizePosition(edict_t *ent)
 	}
 }
 
-void
+static void
 M_WorldEffects(edict_t *ent)
 {
 	int dmg;
@@ -389,7 +389,7 @@ M_droptofloor(edict_t *ent)
 	M_CatagorizePosition(ent);
 }
 
-void
+static void
 M_SetEffects(edict_t *ent)
 {
 	ent->s.effects &= ~(EF_COLOR_SHELL | EF_POWERSCREEN);
@@ -420,7 +420,7 @@ M_SetEffects(edict_t *ent)
 	}
 }
 
-void
+static void
 M_MoveFrame(edict_t *self)
 {
 	mmove_t *move;
@@ -516,7 +516,7 @@ monster_think(edict_t *self)
  * Using a monster makes it angry
  * at the current activator
  */
-void
+static void
 monster_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (self->enemy)
@@ -546,7 +546,7 @@ monster_use(edict_t *self, edict_t *other, edict_t *activator)
 
 void monster_start_go(edict_t *self);
 
-void
+static void
 monster_triggered_spawn(edict_t *self)
 {
 	self->s.origin[2] += 1;
@@ -571,7 +571,7 @@ monster_triggered_spawn(edict_t *self)
 	}
 }
 
-void
+static void
 monster_triggered_spawn_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	/* we have a one frame delay here so we 
@@ -587,7 +587,7 @@ monster_triggered_spawn_use(edict_t *self, edict_t *other, edict_t *activator)
 	self->use = monster_use;
 }
 
-void
+static void
 monster_triggered_start(edict_t *self)
 {
 	self->solid = SOLID_NOT;
@@ -628,7 +628,7 @@ monster_death_use(edict_t *self)
 
 /* ============================================================================ */
 
-qboolean
+static qboolean
 monster_start(edict_t *self)
 {
 	if (deathmatch->value)
@@ -793,7 +793,7 @@ monster_start_go(edict_t *self)
 	self->nextthink = level.time + FRAMETIME;
 }
 
-void
+static void
 walkmonster_start_go(edict_t *self)
 {
 	if (!(self->spawnflags & 2) && (level.time < 1))
@@ -832,7 +832,7 @@ walkmonster_start(edict_t *self)
 	monster_start(self);
 }
 
-void
+static void
 flymonster_start_go(edict_t *self)
 {
 	if (!M_walkmove(self, 0, 0))
@@ -863,7 +863,7 @@ flymonster_start(edict_t *self)
 	monster_start(self);
 }
 
-void
+static void
 swimmonster_start_go(edict_t *self)
 {
 	if (!self->yaw_speed)

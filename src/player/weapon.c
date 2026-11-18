@@ -297,7 +297,7 @@ ChangeWeapon(edict_t *ent)
 	}
 }
 
-void
+static void
 NoAmmoWeaponChange(edict_t *ent)
 {
 	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("slugs"))] &&
@@ -901,7 +901,7 @@ Weapon_Grenade(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 weapon_grenadelauncher_fire(edict_t *ent)
 {
 	vec3_t offset;
@@ -964,7 +964,7 @@ Weapon_GrenadeLauncher(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 Weapon_RocketLauncher_Fire(edict_t *ent)
 {
 	vec3_t offset, start;
@@ -1031,7 +1031,7 @@ Weapon_RocketLauncher(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 Blaster_Fire(edict_t *ent, vec3_t g_offset, int damage,
 		qboolean hyper, int effect)
 {
@@ -1077,7 +1077,7 @@ Blaster_Fire(edict_t *ent, vec3_t g_offset, int damage,
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 }
 
-void
+static void
 Weapon_Blaster_Fire(edict_t *ent)
 {
 	int damage;
@@ -1115,7 +1115,7 @@ Weapon_Blaster(edict_t *ent)
 			fire_frames, Weapon_Blaster_Fire);
 }
 
-void
+static void
 Weapon_HyperBlaster_Fire(edict_t *ent)
 {
 	float rotation;
@@ -1234,7 +1234,7 @@ Weapon_HyperBlaster(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 Machinegun_Fire(edict_t *ent)
 {
 	int i;
@@ -1357,7 +1357,7 @@ Weapon_Machinegun(edict_t *ent)
 			fire_frames, Machinegun_Fire);
 }
 
-void
+static void
 Chaingun_Fire(edict_t *ent)
 {
 	int i;
@@ -1531,7 +1531,7 @@ Weapon_Chaingun(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 weapon_shotgun_fire(edict_t *ent)
 {
 	vec3_t start;
@@ -1606,7 +1606,7 @@ Weapon_Shotgun(edict_t *ent)
 			weapon_shotgun_fire);
 }
 
-void
+static void
 weapon_supershotgun_fire(edict_t *ent)
 {
 	vec3_t start;
@@ -1710,7 +1710,7 @@ Weapon_SuperShotgun(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 weapon_railgun_fire(edict_t *ent)
 {
 	vec3_t start;
@@ -1789,7 +1789,7 @@ Weapon_Railgun(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 weapon_bfg_fire(edict_t *ent)
 {
 	vec3_t offset, start;

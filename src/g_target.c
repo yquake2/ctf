@@ -31,7 +31,7 @@
  * Fire an origin based temp entity event to the clients.
  * "style"		type byte
  */
-void
+static void
 Use_Target_Tent(edict_t *ent, edict_t *other, edict_t *activator)
 {
 	gi.WriteByte(svc_temp_entity);
@@ -67,7 +67,7 @@ SP_target_temp_entity(edict_t *ent)
  * it on/off. Multiple identical looping sounds will just increase volume
  * without any speed cost.
  */
-void
+static void
 Use_Target_Speaker(edict_t *ent, edict_t *other, edict_t *activator)
 {
 	int chan;
@@ -155,7 +155,7 @@ SP_target_speaker(edict_t *ent)
 
 /* ========================================================== */
 
-void
+static void
 Use_Target_Help(edict_t *ent, edict_t *other, edict_t *activator)
 {
 	if (ent->spawnflags & 1)
@@ -203,7 +203,7 @@ SP_target_help(edict_t *ent)
  * Counts a secret found.
  * These are single use targets.
  */
-void
+static void
 use_target_secret(edict_t *ent, edict_t *other, edict_t *activator)
 {
 	gi.sound(ent, CHAN_VOICE, ent->noise_index, 1, ATTN_NORM, 0);
@@ -251,7 +251,7 @@ SP_target_secret(edict_t *ent)
  * Counts a goal completed.
  * These are single use targets.
  */
-void
+static void
 use_target_goal(edict_t *ent, edict_t *other, edict_t *activator)
 {
 	gi.sound(ent, CHAN_VOICE, ent->noise_index, 1, ATTN_NORM, 0);
@@ -298,7 +298,7 @@ SP_target_goal(edict_t *ent)
  * "delay"		wait this long before going off
  * "dmg"		how much radius damage should be done, defaults to 0
  */
-void
+static void
 target_explosion_explode(edict_t *self)
 {
 	float save;
@@ -317,7 +317,7 @@ target_explosion_explode(edict_t *self)
 	self->delay = save;
 }
 
-void
+static void
 use_target_explosion(edict_t *self, edict_t *other, edict_t *activator)
 {
 	self->activator = activator;
@@ -345,7 +345,7 @@ SP_target_explosion(edict_t *ent)
  * QUAKED target_changelevel (1 0 0) (-8 -8 -8) (8 8 8)
  * Changes level to "map" when fired
  */
-void
+static void
 use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (level.intermissiontime)
@@ -428,7 +428,7 @@ SP_target_changelevel(edict_t *ent)
  * "dmg"	if set, does a radius damage at this location when it splashes
  *          useful for lava/sparks
  */
-void
+static void
 use_target_splash(edict_t *self, edict_t *other, edict_t *activator)
 {
 	gi.WriteByte(svc_temp_entity);
@@ -477,7 +477,7 @@ SP_target_splash(edict_t *self)
  */
 void ED_CallSpawn(edict_t *ent);
 
-void
+static void
 use_target_spawner(edict_t *self, edict_t *other, edict_t *activator)
 {
 	edict_t *ent;
@@ -520,7 +520,7 @@ SP_target_spawner(edict_t *self)
  * speed	default is 1000
  */
 
-void
+static void
 use_target_blaster(edict_t *self, edict_t *other, edict_t *activator)
 {
 	fire_blaster(self, self->s.origin, self->movedir, self->dmg,
@@ -558,7 +558,7 @@ SP_target_blaster(edict_t *self)
  * the same unit. It is OK to check multiple triggers. Message, delay, target,
  * and killtarget also work.
  */
-void
+static void
 trigger_crosslevel_trigger_use(edict_t *self, edict_t *other,
 		edict_t *activator)
 {
@@ -580,7 +580,7 @@ SP_target_crosslevel_trigger(edict_t *self)
  *
  * "delay" delay before using targets if the trigger has been activated (default 1)
  */
-void
+static void
 target_crosslevel_target_think(edict_t *self)
 {
 	if (self->spawnflags ==
@@ -613,7 +613,7 @@ SP_target_crosslevel_target(edict_t *self)
  * or a direction.
  */
 
-void
+static void
 target_laser_think(edict_t *self)
 {
 	edict_t *ignore;
@@ -695,7 +695,7 @@ target_laser_think(edict_t *self)
 	self->nextthink = level.time + FRAMETIME;
 }
 
-void
+static void
 target_laser_on(edict_t *self)
 {
 	if (!self->activator)
@@ -708,7 +708,7 @@ target_laser_on(edict_t *self)
 	target_laser_think(self);
 }
 
-void
+static void
 target_laser_off(edict_t *self)
 {
 	self->spawnflags &= ~1;
@@ -716,7 +716,7 @@ target_laser_off(edict_t *self)
 	self->nextthink = 0;
 }
 
-void
+static void
 target_laser_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	self->activator = activator;
@@ -731,7 +731,7 @@ target_laser_use(edict_t *self, edict_t *other, edict_t *activator)
 	}
 }
 
-void
+static void
 target_laser_start(edict_t *self)
 {
 	edict_t *ent;
@@ -830,7 +830,7 @@ SP_target_laser(edict_t *self)
  * speed		How many seconds the ramping will take
  * message		two letters; starting lightlevel and ending lightlevel
  */
-void
+static void
 target_lightramp_think(edict_t *self)
 {
 	char style[2];
@@ -854,7 +854,7 @@ target_lightramp_think(edict_t *self)
 	}
 }
 
-void
+static void
 target_lightramp_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (!self->enemy)
@@ -943,7 +943,7 @@ SP_target_lightramp(edict_t *self)
  * "speed"		severity of the quake (default:200)
  * "count"		duration of the quake (default:5)
  */
-void
+static void
 target_earthquake_think(edict_t *self)
 {
 	int i;
@@ -985,7 +985,7 @@ target_earthquake_think(edict_t *self)
 	}
 }
 
-void
+static void
 target_earthquake_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	self->timestamp = level.time + self->count;

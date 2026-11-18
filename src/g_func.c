@@ -76,14 +76,14 @@
 
 /* Support routines for movement (changes in origin using velocity) */
 
-void
+static void
 Move_Done(edict_t *ent)
 {
 	VectorClear(ent->velocity);
 	ent->moveinfo.endfunc(ent);
 }
 
-void
+static void
 Move_Final(edict_t *ent)
 {
 	if (ent->moveinfo.remaining_distance == 0)
@@ -100,7 +100,7 @@ Move_Final(edict_t *ent)
 	ent->nextthink = level.time + FRAMETIME;
 }
 
-void
+static void
 Move_Begin(edict_t *ent)
 {
 	float frames;
@@ -122,7 +122,7 @@ Move_Begin(edict_t *ent)
 
 void Think_AccelMove(edict_t *ent);
 
-void
+static void
 Move_Calc(edict_t *ent, vec3_t dest, void (*func)(edict_t *))
 {
 	VectorClear(ent->velocity);
@@ -155,14 +155,14 @@ Move_Calc(edict_t *ent, vec3_t dest, void (*func)(edict_t *))
 
 /* Support routines for angular movement (changes in angle using avelocity) */
 
-void
+static void
 AngleMove_Done(edict_t *ent)
 {
 	VectorClear(ent->avelocity);
 	ent->moveinfo.endfunc(ent);
 }
 
-void
+static void
 AngleMove_Final(edict_t *ent)
 {
 	vec3_t move;
@@ -188,7 +188,7 @@ AngleMove_Final(edict_t *ent)
 	ent->nextthink = level.time + FRAMETIME;
 }
 
-void
+static void
 AngleMove_Begin(edict_t *ent)
 {
 	vec3_t destdelta;
@@ -228,7 +228,7 @@ AngleMove_Begin(edict_t *ent)
 	ent->think = AngleMove_Final;
 }
 
-void
+static void
 AngleMove_Calc(edict_t *ent, void (*func)(edict_t *))
 {
 	VectorClear(ent->avelocity);
@@ -253,7 +253,7 @@ AngleMove_Calc(edict_t *ent, void (*func)(edict_t *))
 
 #define AccelerationDistance(target, rate) (target * ((target / rate) + 1) / 2)
 
-void
+static void
 plat_CalcAcceleratedMove(moveinfo_t *moveinfo)
 {
 	float accel_dist;
@@ -282,7 +282,7 @@ plat_CalcAcceleratedMove(moveinfo_t *moveinfo)
 	moveinfo->decel_distance = decel_dist;
 }
 
-void
+static void
 plat_Accelerate(moveinfo_t *moveinfo)
 {
 	/* are we decelerating? */
@@ -395,7 +395,7 @@ Think_AccelMove(edict_t *ent)
 
 void plat_go_down(edict_t *ent);
 
-void
+static void
 plat_hit_top(edict_t *ent)
 {
 	if (!(ent->flags & FL_TEAMSLAVE))
@@ -415,7 +415,7 @@ plat_hit_top(edict_t *ent)
 	ent->nextthink = level.time + 3;
 }
 
-void
+static void
 plat_hit_bottom(edict_t *ent)
 {
 	if (!(ent->flags & FL_TEAMSLAVE))
@@ -452,7 +452,7 @@ plat_go_down(edict_t *ent)
 	Move_Calc(ent, ent->moveinfo.end_origin, plat_hit_bottom);
 }
 
-void
+static void
 plat_go_up(edict_t *ent)
 {
 	if (!(ent->flags & FL_TEAMSLAVE))
@@ -471,7 +471,7 @@ plat_go_up(edict_t *ent)
 	Move_Calc(ent, ent->moveinfo.start_origin, plat_hit_top);
 }
 
-void
+static void
 plat_blocked(edict_t *self, edict_t *other)
 {
 	if (!(other->svflags & SVF_MONSTER) && (!other->client))
@@ -504,7 +504,7 @@ plat_blocked(edict_t *self, edict_t *other)
 	}
 }
 
-void
+static void
 Use_Plat(edict_t *ent, edict_t *other, edict_t *activator)
 {
 	if (ent->think)
@@ -515,7 +515,7 @@ Use_Plat(edict_t *ent, edict_t *other, edict_t *activator)
 	plat_go_down(ent);
 }
 
-void
+static void
 Touch_Plat_Center(edict_t *ent, edict_t *other, const cplane_t *plane,
 		const csurface_t *surf)
 {
@@ -541,7 +541,7 @@ Touch_Plat_Center(edict_t *ent, edict_t *other, const cplane_t *plane,
 	}
 }
 
-void
+static void
 plat_spawn_inside_trigger(edict_t *ent)
 {
 	edict_t *trigger;
@@ -716,14 +716,14 @@ SP_func_plat(edict_t *ent)
  * STOP mean it will stop moving instead of pushing entities
  */
 
-void
+static void
 rotating_blocked(edict_t *self, edict_t *other)
 {
 	T_Damage(other, self, self, vec3_origin, other->s.origin,
 			vec3_origin, self->dmg, 1, 0, MOD_CRUSH);
 }
 
-void
+static void
 rotating_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurface_t *surf)
 {
 	if (self->avelocity[0] || self->avelocity[1] || self->avelocity[2])
@@ -733,7 +733,7 @@ rotating_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurf
 	}
 }
 
-void
+static void
 rotating_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (!VectorCompare(self->avelocity, vec3_origin))
@@ -855,7 +855,7 @@ SP_func_rotating(edict_t *ent)
  * 5) in-out
  */
 
-void
+static void
 button_done(edict_t *self)
 {
 	self->moveinfo.state = STATE_BOTTOM;
@@ -863,7 +863,7 @@ button_done(edict_t *self)
 	self->s.effects |= EF_ANIM01;
 }
 
-void
+static void
 button_return(edict_t *self)
 {
 	self->moveinfo.state = STATE_DOWN;
@@ -878,7 +878,7 @@ button_return(edict_t *self)
 	}
 }
 
-void
+static void
 button_wait(edict_t *self)
 {
 	self->moveinfo.state = STATE_TOP;
@@ -895,7 +895,7 @@ button_wait(edict_t *self)
 	}
 }
 
-void
+static void
 button_fire(edict_t *self)
 {
 	if ((self->moveinfo.state == STATE_UP) ||
@@ -916,14 +916,14 @@ button_fire(edict_t *self)
 	Move_Calc(self, self->moveinfo.end_origin, button_wait);
 }
 
-void
+static void
 button_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	self->activator = activator;
 	button_fire(self);
 }
 
-void
+static void
 button_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurface_t *surf)
 {
 	if (!other->client)
@@ -940,7 +940,7 @@ button_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurfac
 	button_fire(self);
 }
 
-void
+static void
 button_killed(edict_t *self, edict_t *inflictor, edict_t *attacker,
 		int damage, const vec3_t point)
 {
@@ -1061,7 +1061,7 @@ SP_func_button(edict_t *ent)
  * 4)	heavy
  */
 
-void
+static void
 door_use_areaportals(edict_t *self, qboolean open)
 {
 	edict_t *t = NULL;
@@ -1082,7 +1082,7 @@ door_use_areaportals(edict_t *self, qboolean open)
 
 void door_go_down(edict_t *self);
 
-void
+static void
 door_hit_top(edict_t *self)
 {
 	if (!(self->flags & FL_TEAMSLAVE))
@@ -1111,7 +1111,7 @@ door_hit_top(edict_t *self)
 	}
 }
 
-void
+static void
 door_hit_bottom(edict_t *self)
 {
 	if (!(self->flags & FL_TEAMSLAVE))
@@ -1163,7 +1163,7 @@ door_go_down(edict_t *self)
 	}
 }
 
-void
+static void
 door_go_up(edict_t *self, edict_t *activator)
 {
 	if (self->moveinfo.state == STATE_UP)
@@ -1209,7 +1209,7 @@ door_go_up(edict_t *self, edict_t *activator)
 	door_use_areaportals(self, true);
 }
 
-void
+static void
 door_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	edict_t *ent;
@@ -1245,7 +1245,7 @@ door_use(edict_t *self, edict_t *other, edict_t *activator)
 	}
 }
 
-void
+static void
 Touch_DoorTrigger(edict_t *self, edict_t *other, const cplane_t *plane,
 		const csurface_t *surf)
 {
@@ -1275,7 +1275,7 @@ Touch_DoorTrigger(edict_t *self, edict_t *other, const cplane_t *plane,
 	door_use(self->owner, other, other);
 }
 
-void
+static void
 Think_CalcMoveSpeed(edict_t *self)
 {
 	edict_t *ent;
@@ -1333,7 +1333,7 @@ Think_CalcMoveSpeed(edict_t *self)
 	}
 }
 
-void
+static void
 Think_SpawnDoorTrigger(edict_t *ent)
 {
 	edict_t *other;
@@ -1376,7 +1376,7 @@ Think_SpawnDoorTrigger(edict_t *ent)
 	Think_CalcMoveSpeed(ent);
 }
 
-void
+static void
 door_blocked(edict_t *self, edict_t *other)
 {
 	edict_t *ent;
@@ -1427,7 +1427,7 @@ door_blocked(edict_t *self, edict_t *other)
 	}
 }
 
-void
+static void
 door_killed(edict_t *self, edict_t *inflictor, edict_t *attacker,
 		int damage, const vec3_t point)
 {
@@ -1442,7 +1442,7 @@ door_killed(edict_t *self, edict_t *inflictor, edict_t *attacker,
 	door_use(self->teammaster, attacker, attacker);
 }
 
-void
+static void
 door_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurface_t *surf)
 {
 	if (!other->client)
@@ -1862,7 +1862,7 @@ SP_func_water(edict_t *self)
  */
 void train_next(edict_t *self);
 
-void
+static void
 train_blocked(edict_t *self, edict_t *other)
 {
 	if (!(other->svflags & SVF_MONSTER) && (!other->client))
@@ -1897,7 +1897,7 @@ train_blocked(edict_t *self, edict_t *other)
 			vec3_origin, self->dmg, 1, 0, MOD_CRUSH);
 }
 
-void
+static void
 train_wait(edict_t *self)
 {
 	if (self->target_ent->pathtarget)
@@ -2016,7 +2016,7 @@ again:
 	self->spawnflags |= TRAIN_START_ON;
 }
 
-void
+static void
 train_resume(edict_t *self)
 {
 	edict_t *ent;
@@ -2155,7 +2155,7 @@ SP_func_train(edict_t *self)
 /*
  * QUAKED trigger_elevator (0.3 0.1 0.6) (-8 -8 -8) (8 8 8)
  */
-void
+static void
 trigger_elevator_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	edict_t *target;
@@ -2183,7 +2183,7 @@ trigger_elevator_use(edict_t *self, edict_t *other, edict_t *activator)
 	train_resume(self->movetarget);
 }
 
-void
+static void
 trigger_elevator_init(edict_t *self)
 {
 	if (!self->target)
@@ -2232,14 +2232,14 @@ SP_trigger_elevator(edict_t *self)
  *
  * These can used but not touched.
  */
-void
+static void
 func_timer_think(edict_t *self)
 {
 	G_UseTargets(self, self->activator);
 	self->nextthink = level.time + self->wait + crandom() * self->random;
 }
 
-void
+static void
 func_timer_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	self->activator = activator;
@@ -2296,7 +2296,7 @@ SP_func_timer(edict_t *self)
  * speed	default 100
  */
 
-void
+static void
 func_conveyor_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (self->spawnflags & 1)
@@ -2363,7 +2363,7 @@ void door_secret_move5(edict_t *self);
 void door_secret_move6(edict_t *self);
 void door_secret_done(edict_t *self);
 
-void
+static void
 door_secret_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	/* make sure we're not already moving */
@@ -2432,7 +2432,7 @@ door_secret_done(edict_t *self)
 	door_use_areaportals(self, false);
 }
 
-void
+static void
 door_secret_blocked(edict_t *self, edict_t *other)
 {
 	if (!(other->svflags & SVF_MONSTER) && (!other->client))
@@ -2463,7 +2463,7 @@ door_secret_blocked(edict_t *self, edict_t *other)
 			vec3_origin, self->dmg, 1, 0, MOD_CRUSH);
 }
 
-void
+static void
 door_secret_die(edict_t *self, edict_t *inflictor, edict_t *attacker,
 		int damage, const vec3_t point)
 {
@@ -2557,7 +2557,7 @@ SP_func_door_secret(edict_t *ent)
  * QUAKED func_killbox (1 0 0) ?
  * Kills everything inside when fired, irrespective of protection.
  */
-void
+static void
 use_killbox(edict_t *self, edict_t *other, edict_t *activator)
 {
 	KillBox(self);

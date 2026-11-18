@@ -182,7 +182,7 @@ G_PickTarget(char *targetname)
 	return choice[randk() % num_choices];
 }
 
-void
+static void
 Think_Delay(edict_t *ent)
 {
 	if (!ent)

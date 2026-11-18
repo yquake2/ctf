@@ -363,7 +363,7 @@ Cmd_Score_f(edict_t *ent)
 /*
  * Draw help computer.
  */
-void
+static void
 HelpComputer(edict_t *ent)
 {
 	char string[1024];

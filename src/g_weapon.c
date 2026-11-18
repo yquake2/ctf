@@ -342,7 +342,7 @@ fire_shotgun(edict_t *self, vec3_t start, vec3_t aimdir, int damage,
  * Fires a single blaster bolt. Used
  * by the blaster and hyper blaster.
  */
-void
+static void
 blaster_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurface_t *surf)
 {
 	int mod;
@@ -664,7 +664,7 @@ fire_grenade2(edict_t *self, vec3_t start, vec3_t aimdir, int damage,
 	}
 }
 
-void
+static void
 rocket_touch(edict_t *ent, edict_t *other, const cplane_t *plane, const csurface_t *surf)
 {
 	vec3_t origin;
@@ -838,7 +838,7 @@ fire_rail(edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick)
 	}
 }
 
-void
+static void
 bfg_explode(edict_t *self)
 {
 	edict_t *ent;
@@ -902,7 +902,7 @@ bfg_explode(edict_t *self)
 	}
 }
 
-void
+static void
 bfg_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurface_t *surf)
 {
 	if (other == self->owner)
@@ -950,7 +950,7 @@ bfg_touch(edict_t *self, edict_t *other, const cplane_t *plane, const csurface_t
 	gi.multicast(self->s.origin, MULTICAST_PVS);
 }
 
-void
+static void
 bfg_think(edict_t *self)
 {
 	edict_t *ent;
