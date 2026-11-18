@@ -127,7 +127,7 @@ void SP_info_player_team2(edict_t *self);
 
 char *CTFTeamName(int team);
 char *CTFOtherTeamName(int team);
-void CTFAssignSkin(edict_t *ent, char *s);
+void CTFAssignSkin(edict_t *ent, const char *s);
 void CTFAssignTeam(gclient_t *who);
 edict_t *SelectCTFSpawnPoint(const edict_t *ent);
 qboolean CTFPickup_Flag(edict_t *ent, edict_t *other);
@@ -143,7 +143,7 @@ void CTFSay_Team(edict_t *who, char *msg);
 void CTFFlagSetup(edict_t *ent);
 void CTFResetFlag(int ctf_team);
 void CTFFragBonuses(edict_t *targ, edict_t *inflictor, edict_t *attacker);
-void CTFCheckHurtCarrier(edict_t *targ, edict_t *attacker);
+void CTFCheckHurtCarrier(const edict_t *targ, edict_t *attacker);
 
 /* GRAPPLE */
 void CTFWeapon_Grapple(edict_t *ent);
@@ -152,7 +152,7 @@ void CTFGrapplePull(edict_t *self);
 void CTFResetGrapple(edict_t *self);
 
 /* TECH */
-gitem_t *CTFWhat_Tech(edict_t *ent);
+const gitem_t *CTFWhat_Tech(const edict_t *ent);
 qboolean CTFPickup_Tech(edict_t *ent, edict_t *other);
 void CTFDrop_Tech(edict_t *ent, const gitem_t *item);
 void CTFDeadDropTech(edict_t *ent);
