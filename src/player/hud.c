@@ -37,6 +37,11 @@
 void
 MoveClientToIntermission(edict_t *ent)
 {
+	if (!ent)
+	{
+		return;
+	}
+
 	if (deathmatch->value || coop->value)
 	{
 		ent->client->showscores = true;
@@ -81,12 +86,17 @@ MoveClientToIntermission(edict_t *ent)
 void
 BeginIntermission(const edict_t *targ)
 {
-	int i, n;
-	edict_t *ent, *client;
+	int i;
+	edict_t *ent;
+
+	if (!targ)
+	{
+		return;
+	}
 
 	if (level.intermissiontime)
 	{
-		return; /* allready activated */
+		return; /* already activated */
 	}
 
 	if (deathmatch->value && ctf->value)
@@ -99,6 +109,8 @@ BeginIntermission(const edict_t *targ)
 	/* respawn any dead clients */
 	for (i = 0; i < maxclients->value; i++)
 	{
+		edict_t *client;
+
 		client = g_edicts + 1 + i;
 
 		if (!client->inuse)
@@ -121,6 +133,9 @@ BeginIntermission(const edict_t *targ)
 		{
 			for (i = 0; i < maxclients->value; i++)
 			{
+				int n;
+				edict_t *client;
+
 				client = g_edicts + 1 + i;
 
 				if (!client->inuse)
@@ -185,6 +200,8 @@ BeginIntermission(const edict_t *targ)
 	/* move all clients to the intermission point */
 	for (i = 0; i < maxclients->value; i++)
 	{
+		edict_t *client;
+
 		client = g_edicts + 1 + i;
 
 		if (!client->inuse)
@@ -210,6 +227,11 @@ DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer)
 	gclient_t *cl;
 	edict_t *cl_ent;
 	char *tag;
+
+	if (!ent) /* killer can be NULL */
+	{
+		return;
+	}
 
 	if (ctf->value)
 	{
@@ -369,15 +391,20 @@ HelpComputer(edict_t *ent)
 	char string[1024];
 	char *sk;
 
-	if (skill->value == 0)
+	if (!ent)
+	{
+		return;
+	}
+
+	if (skill->value == SKILL_EASY)
 	{
 		sk = "easy";
 	}
-	else if (skill->value == 1)
+	else if (skill->value == SKILL_MEDIUM)
 	{
 		sk = "medium";
 	}
-	else if (skill->value == 2)
+	else if (skill->value == SKILL_HARD)
 	{
 		sk = "hard";
 	}
@@ -445,6 +472,10 @@ G_SetStats(edict_t *ent)
 	int index, cells;
 	int power_armor_type;
 
+	if (!ent)
+	{
+		return;
+	}
 
 	/* health */
 	ent->client->ps.stats[STAT_HEALTH_ICON] = level.pic_health;

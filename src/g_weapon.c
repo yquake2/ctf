@@ -39,8 +39,13 @@ check_dodge(edict_t *self, vec3_t start, vec3_t dir, int speed)
 	trace_t tr;
 	float eta;
 
+	if (!self)
+	{
+		return;
+	}
+
 	/* easy mode only ducks one quarter the time */
-	if (skill->value == 0)
+	if (skill->value == SKILL_EASY)
 	{
 		if (random() > 0.25)
 		{
