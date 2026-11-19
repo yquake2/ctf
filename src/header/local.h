@@ -45,6 +45,7 @@
 #define svc_temp_entity 3
 #define svc_layout 4
 #define svc_inventory 5
+#define svc_stufftext 11
 
 /* ================================================================== */
 
@@ -632,7 +633,7 @@ void G_ProjectSource(const vec3_t point, const vec3_t distance, const vec3_t for
 		const vec3_t right, vec3_t result);
 edict_t *G_Find(edict_t *from, int fieldofs, const char *match);
 edict_t *findradius(edict_t *from, const vec3_t org, float rad);
-edict_t *G_PickTarget(char *targetname);
+edict_t *G_PickTarget(const char *targetname);
 void G_UseTargets(edict_t *ent, edict_t *activator);
 void G_SetMovedir(vec3_t angles, vec3_t movedir);
 
@@ -645,8 +646,8 @@ void G_TouchSolids(edict_t *ent);
 
 char *G_CopyString(const char *in);
 
-float *tv(float x, float y, float z);
-char *vtos(vec3_t v);
+const float *tv(float x, float y, float z);
+const char *vtos(const vec3_t v);
 
 float vectoyaw(vec3_t vec);
 void vectoangles(const vec3_t value, vec3_t angles);
@@ -799,11 +800,11 @@ void Weapon_GrenadeLauncher(edict_t *ent);
 void Weapon_Railgun(edict_t *ent);
 void Weapon_BFG(edict_t *ent);
 void Use_Quad(edict_t *ent, const gitem_t *item);
-void P_ProjectSource(edict_t *ent, vec3_t distance,
-		vec3_t forward, vec3_t right, vec3_t result);
+void P_ProjectSource(const edict_t *ent, const vec3_t distance,
+		vec3_t forward, const vec3_t right, vec3_t result);
 void Weapon_Generic(edict_t *ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST,
-		int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST, int *pause_frames,
-		int *fire_frames, void (*fire)(edict_t *ent));
+		int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST, const int *pause_frames,
+		const int *fire_frames, void (*fire)(edict_t *ent));
 
 /* m_move.c */
 qboolean M_CheckBottom(edict_t *ent);
@@ -1141,5 +1142,13 @@ struct edict_s
 
 #include "ctf.h"
 
-#endif /* CTF_LOCAL_H */
+/*
+ * Uncomment for check that exported functions declarations are same as in
+ * implementation. (-Wmissing-prototypes )
+ *
+ */
+#if DEBUG
+#include "../savegame/tables/spawnfunc_decs.h"
+#endif
 
+#endif /* CTF_LOCAL_H */

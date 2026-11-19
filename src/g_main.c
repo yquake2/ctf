@@ -81,7 +81,7 @@ cvar_t *aimfix;
 
 /* =================================================================== */
 
-void
+static void
 ShutdownGame(void)
 {
 	gi.dprintf("==== ShutdownGame ====\n");
@@ -156,7 +156,7 @@ Com_Printf(const char *msg, ...)
 
 /* ====================================================================== */
 
-void
+static void
 ClientEndServerFrames(void)
 {
 	int i;
@@ -180,7 +180,7 @@ ClientEndServerFrames(void)
 /*
  * Returns the created target changelevel
  */
-edict_t *
+static edict_t *
 CreateTargetChangeLevel(char *map)
 {
 	edict_t *ent;
@@ -285,7 +285,7 @@ EndDMLevel(void)
 	}
 }
 
-void
+static void
 CheckDMRules(void)
 {
 	int i;
@@ -343,7 +343,7 @@ CheckDMRules(void)
 	}
 }
 
-void
+static void
 ExitLevel(void)
 {
 	int i;

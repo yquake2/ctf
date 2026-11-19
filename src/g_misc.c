@@ -36,7 +36,7 @@ int gibsthisframe;
 
 /* ===================================================== */
 
-void
+static void
 Use_Areaportal(edict_t *ent, edict_t *other /* unused */, edict_t *activator /* unused */)
 {
 	if (!ent)
@@ -69,7 +69,7 @@ SP_func_areaportal(edict_t *ent)
 
 /* ===================================================== */
 
-void
+static void
 VelocityForDamage(int damage, vec3_t v)
 {
 	v[0] = 100.0 * crandom();
@@ -86,7 +86,7 @@ VelocityForDamage(int damage, vec3_t v)
 	}
 }
 
-void
+static void
 ClipGibVelocity(edict_t *ent)
 {
 	if (!ent)
@@ -124,7 +124,7 @@ ClipGibVelocity(edict_t *ent)
 
 /* ===================================================== */
 
-void
+static void
 gib_think(edict_t *self)
 {
 	if (!self)
@@ -142,7 +142,7 @@ gib_think(edict_t *self)
 	}
 }
 
-void
+static void
 gib_touch(edict_t *self, edict_t *other /* unused */, const cplane_t *plane, const csurface_t *surf /* unused */)
 {
 	if (!self)
@@ -176,7 +176,7 @@ gib_touch(edict_t *self, edict_t *other /* unused */, const cplane_t *plane, con
 	}
 }
 
-void
+static void
 gib_die(edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
 		int damage /* unused */, const vec3_t point /* unused */)
 {
@@ -348,7 +348,7 @@ ThrowClientHead(edict_t *self, int damage)
 	gi.linkentity(self);
 }
 
-void
+static void
 debris_die(edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
 		int damage /* unused */, const vec3_t point /* unused */)
 {
@@ -441,7 +441,7 @@ BecomeExplosion1(edict_t *self)
 	G_FreeEdict(self);
 }
 
-void
+static void
 BecomeExplosion2(edict_t *self)
 {
 	if (!self)
@@ -464,7 +464,7 @@ BecomeExplosion2(edict_t *self)
  *  this path_corner targeted touches it
  */
 
-void
+static void
 path_corner_touch(edict_t *self, edict_t *other, const cplane_t *plane /* unused */,
 		const csurface_t *surf /* unused */)
 {
@@ -565,7 +565,7 @@ SP_path_corner(edict_t *self)
  * when first activated before going after the activator.  If
  * hold is selected, it will stay here.
  */
-void
+static void
 point_combat_touch(edict_t *self, edict_t *other, const cplane_t *plane /* unused */,
 		const csurface_t *surf /* unused */)
 {
@@ -751,7 +751,7 @@ SP_info_notnull(edict_t *self)
  * If targeted, will toggle between on and off.
  * Default _cone value is 10 (used to set size of light for spotlights)
  */
-void
+static void
 light_use(edict_t *self, edict_t *other /* unused */, edict_t *activator /* unused */)
 {
 	if (!self)
@@ -815,7 +815,7 @@ SP_light(edict_t *self)
  * START_ON		only valid for TRIGGER_SPAWN walls
  *              the wall will initially be present
  */
-void
+static void
 func_wall_use(edict_t *self, edict_t *other /* unused */, edict_t *activator /* unused */)
 {
 	if (!self)
@@ -908,7 +908,7 @@ SP_func_wall(edict_t *self)
  * This is solid bmodel that will fall if it's support it removed.
  */
 
-void
+static void
 func_object_touch(edict_t *self, edict_t *other, const cplane_t *plane,
 		const csurface_t *surf /* unused */)
 {
@@ -933,7 +933,7 @@ func_object_touch(edict_t *self, edict_t *other, const cplane_t *plane,
 			vec3_origin, self->dmg, 1, 0, MOD_CRUSH);
 }
 
-void
+static void
 func_object_release(edict_t *self)
 {
 	if (!self)
@@ -945,7 +945,7 @@ func_object_release(edict_t *self)
 	self->touch = func_object_touch;
 }
 
-void
+static void
 func_object_use(edict_t *self, edict_t *other /* unused */, edict_t *activator /* unused */)
 {
 	if (!self)
@@ -1026,7 +1026,7 @@ SP_func_object(edict_t *self)
  * it explodes.  You get one large chunk per 100 of mass (up to 8) and
  * one small chunk per 25 of mass (up to 16).  So 800 gives the most.
  */
-void
+static void
 func_explosive_explode(edict_t *self, edict_t *inflictor, edict_t *attacker,
 		int damage /* unused */, const vec3_t point /* unused */)
 {
@@ -1115,13 +1115,13 @@ func_explosive_explode(edict_t *self, edict_t *inflictor, edict_t *attacker,
 	}
 }
 
-void
+static void
 func_explosive_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	func_explosive_explode(self, self, other, self->health, vec3_origin);
 }
 
-void
+static void
 func_explosive_spawn(edict_t *self, edict_t *other, edict_t *activator)
 {
 	self->solid = SOLID_BSP;
@@ -1198,7 +1198,7 @@ SP_func_explosive(edict_t *self)
  * Large exploding box.  You can override its mass (100),
  * health (80), and dmg (150).
  */
-void
+static void
 barrel_touch(edict_t *self, edict_t *other, const cplane_t *plane /* unused */, const csurface_t *surf /*unused */)
 {
 	float ratio;
@@ -1219,7 +1219,7 @@ barrel_touch(edict_t *self, edict_t *other, const cplane_t *plane /* unused */, 
 	M_walkmove(self, vectoyaw(v), 20 * ratio * FRAMETIME);
 }
 
-void
+static void
 barrel_explode(edict_t *self)
 {
 	vec3_t org;
@@ -1310,7 +1310,7 @@ barrel_explode(edict_t *self)
 	}
 }
 
-void
+static void
 barrel_delay(edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker,
 		int damage /* unused */, const vec3_t point /* unused */)
 {
@@ -1382,7 +1382,7 @@ SP_misc_explobox(edict_t *self)
 /*
  * QUAKED misc_blackhole (1 .5 0) (-8 -8 -8) (8 8 8)
  */
-void
+static void
 misc_blackhole_use(edict_t *ent, edict_t *other /* unused */, edict_t *activator /* unused */)
 {
 	if (!ent)
@@ -1393,7 +1393,7 @@ misc_blackhole_use(edict_t *ent, edict_t *other /* unused */, edict_t *activator
 	G_FreeEdict(ent);
 }
 
-void
+static void
 misc_blackhole_think(edict_t *self)
 {
 	if (!self)
@@ -1435,7 +1435,7 @@ SP_misc_blackhole(edict_t *ent)
 /*
  * QUAKED misc_eastertank (1 .5 0) (-32 -32 -16) (32 32 32)
  */
-void
+static void
 misc_eastertank_think(edict_t *self)
 {
 	if (!self)
@@ -1476,7 +1476,7 @@ SP_misc_eastertank(edict_t *ent)
 /*
  * QUAKED misc_easterchick (1 .5 0) (-32 -32 0) (32 32 32)
  */
-void
+static void
 misc_easterchick_think(edict_t *self)
 {
 	if (!self)
@@ -1517,7 +1517,7 @@ SP_misc_easterchick(edict_t *ent)
 /*
  * QUAKED misc_easterchick2 (1 .5 0) (-32 -32 0) (32 32 32)
  */
-void
+static void
 misc_easterchick2_think(edict_t *self)
 {
 	if (!self)
@@ -1560,7 +1560,7 @@ SP_misc_easterchick2(edict_t *ent)
  * Not really a monster, this is the Tank Commander's decapitated body.
  * There should be a item_commander_head that has this as it's target.
  */
-void
+static void
 commander_body_think(edict_t *self)
 {
 	if (!self)
@@ -1583,7 +1583,7 @@ commander_body_think(edict_t *self)
 	}
 }
 
-void
+static void
 commander_body_use(edict_t *self, edict_t *other /* unused */, edict_t *activator /* unused */)
 {
 	if (!self)
@@ -1596,7 +1596,7 @@ commander_body_use(edict_t *self, edict_t *other /* unused */, edict_t *activato
 	gi.sound(self, CHAN_BODY, gi.soundindex("tank/pain.wav"), 1, ATTN_NORM, 0);
 }
 
-void
+static void
 commander_body_drop(edict_t *self)
 {
 	if (!self)
@@ -1640,7 +1640,7 @@ SP_monster_commander_body(edict_t *self)
  * The origin is the bottom of the banner.
  * The banner is 128 tall.
  */
-void
+static void
 misc_banner_think(edict_t *ent)
 {
 	if (!ent)
@@ -1674,7 +1674,7 @@ SP_misc_banner(edict_t *ent)
  * QUAKED misc_deadsoldier (1 .5 0) (-16 -16 0) (16 16 16) ON_BACK ON_STOMACH BACK_DECAP FETAL_POS SIT_DECAP IMPALED
  * This is the dead player model. Comes in 6 exciting different poses!
  */
-void
+static void
 misc_deadsoldier_die(edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
 		int damage, const vec3_t point /* unused */)
 {
@@ -1768,7 +1768,7 @@ SP_misc_deadsoldier(edict_t *ent)
 extern void train_use(edict_t *self, edict_t *other, edict_t *activator);
 extern void func_train_find(edict_t *self);
 
-void
+static void
 misc_viper_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (!self || !other || !activator)
@@ -1835,7 +1835,7 @@ SP_misc_bigviper(edict_t *ent)
  * QUAKED misc_viper_bomb (1 0 0) (-8 -8 -8) (8 8 8)
  * "dmg"	how much boom should the bomb make?
  */
-void
+static void
 misc_viper_bomb_touch(edict_t *self, edict_t *other /* unused */, const cplane_t *plane /* unused */,
 		const csurface_t *surf /* unused */)
 {
@@ -1851,7 +1851,7 @@ misc_viper_bomb_touch(edict_t *self, edict_t *other /* unused */, const cplane_t
 	BecomeExplosion2(self);
 }
 
-void
+static void
 misc_viper_bomb_prethink(edict_t *self)
 {
 	vec3_t v;
@@ -1879,7 +1879,7 @@ misc_viper_bomb_prethink(edict_t *self)
 	self->s.angles[2] = diff + 10;
 }
 
-void
+static void
 misc_viper_bomb_use(edict_t *self, edict_t *other /* unused */, edict_t *activator)
 {
 	edict_t *viper;
@@ -1942,7 +1942,7 @@ SP_misc_viper_bomb(edict_t *self)
 extern void train_use(edict_t *self, edict_t *other, edict_t *activator);
 extern void func_train_find(edict_t *self);
 
-void
+static void
 misc_strogg_ship_use(edict_t *self, edict_t *other /* other */, edict_t *activator)
 {
 	if (!self || !activator)
@@ -1994,7 +1994,7 @@ SP_misc_strogg_ship(edict_t *ent)
 /*
  * QUAKED misc_satellite_dish (1 .5 0) (-64 -64 0) (64 64 128)
  */
-void
+static void
 misc_satellite_dish_think(edict_t *self)
 {
 	if (!self)
@@ -2010,7 +2010,7 @@ misc_satellite_dish_think(edict_t *self)
 	}
 }
 
-void
+static void
 misc_satellite_dish_use(edict_t *self, edict_t *other /* unused */, edict_t *activator /* unused */)
 {
 	if (!self)
@@ -2185,7 +2185,7 @@ SP_target_character(edict_t *self)
 /*
  * QUAKED target_string (0 0 1) (-8 -8 -8) (8 8 8)
  */
-void
+static void
 target_string_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	edict_t *e;
@@ -2321,7 +2321,7 @@ func_clock_format_countdown(edict_t *self)
 	}
 }
 
-void
+static void
 func_clock_think(edict_t *self)
 {
 	if (!self->enemy)
@@ -2401,7 +2401,7 @@ func_clock_think(edict_t *self)
 	self->nextthink = level.time + 1;
 }
 
-void
+static void
 func_clock_use(edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (!self)
@@ -2475,7 +2475,7 @@ SP_func_clock(edict_t *self)
 
 /* ================================================================================= */
 
-void
+static void
 teleporter_touch(edict_t *self, edict_t *other, const cplane_t *plane /* unused */,
 		const csurface_t *surf /* unused */)
 {

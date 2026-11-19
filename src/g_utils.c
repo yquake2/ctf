@@ -22,7 +22,7 @@
  * Misc. utility functions for the game logic.
  *
  * =======================================================================
- */ 
+ */
 
 #include "header/local.h"
 
@@ -50,7 +50,7 @@ G_ProjectSource(const vec3_t point, const vec3_t distance, const vec3_t forward,
 edict_t *
 G_Find(edict_t *from, int fieldofs, const char *match)
 {
-	char *s;
+	const char *s;
 
 	if (!match)
 	{
@@ -144,7 +144,7 @@ findradius(edict_t *from, const vec3_t org, float rad)
  * NULL will be returned if the end of the list is reached.
  */
 edict_t *
-G_PickTarget(char *targetname)
+G_PickTarget(const char *targetname)
 {
 	edict_t *ent = NULL;
 	int num_choices = 0;
@@ -182,7 +182,7 @@ G_PickTarget(char *targetname)
 	return choice[randk() % num_choices];
 }
 
-void
+static void
 Think_Delay(edict_t *ent)
 {
 	if (!ent)
@@ -208,7 +208,7 @@ Think_Delay(edict_t *ent)
  * match (string)self.target and call their .use function
  */
 void
-G_UseTargets(edict_t *ent, edict_t *activator)
+G_UseTargets(edict_t *ent, edict_t *activator /* may be NULL */)
 {
 	edict_t *t;
 
@@ -239,7 +239,7 @@ G_UseTargets(edict_t *ent, edict_t *activator)
 	}
 
 	/* print the message */
-	if ((ent->message) && !(activator->svflags & SVF_MONSTER))
+	if (activator && (ent->message) && !(activator->svflags & SVF_MONSTER))
 	{
 		gi.centerprintf(activator, "%s", ent->message);
 
@@ -311,7 +311,7 @@ G_UseTargets(edict_t *ent, edict_t *activator)
  * This is just a convenience function
  * for making temporary vectors for function calls
  */
-float *
+const float *
 tv(float x, float y, float z)
 {
 	static int index;
@@ -335,8 +335,8 @@ tv(float x, float y, float z)
  * This is just a convenience function
  * for printing vectors
  */
-char *
-vtos(vec3_t v)
+const char *
+vtos(const vec3_t v)
 {
 	static int index;
 	static char str[8][32];
@@ -409,7 +409,6 @@ vectoyaw(vec3_t vec)
 void
 vectoangles(const vec3_t value, vec3_t angles)
 {
-	float forward;
 	float yaw, pitch;
 
 	if ((value[1] == 0) && (value[0] == 0))
@@ -427,6 +426,8 @@ vectoangles(const vec3_t value, vec3_t angles)
 	}
 	else
 	{
+		float forward;
+
 		if (value[0])
 		{
 			yaw = (int)(atan2(value[1], value[0]) * 180 / M_PI);
@@ -552,7 +553,7 @@ void
 G_TouchTriggers(edict_t *ent)
 {
 	int i, num;
-	edict_t *touch[MAX_EDICTS], *hit;
+	edict_t *touch[MAX_EDICTS];
 
 	if (!ent)
 	{
@@ -572,6 +573,8 @@ G_TouchTriggers(edict_t *ent)
 	   list removed before we get to it (killtriggered) */
 	for (i = 0; i < num; i++)
 	{
+		edict_t *hit;
+
 		hit = touch[i];
 
 		if (!hit->inuse)
@@ -596,7 +599,7 @@ void
 G_TouchSolids(edict_t *ent)
 {
 	int i, num;
-	edict_t *touch[MAX_EDICTS], *hit;
+	edict_t *touch[MAX_EDICTS];
 
 	if (!ent)
 	{
@@ -610,6 +613,8 @@ G_TouchSolids(edict_t *ent)
 	   list removed before we get to it (killtriggered) */
 	for (i = 0; i < num; i++)
 	{
+		edict_t *hit;
+
 		hit = touch[i];
 
 		if (!hit->inuse)
@@ -637,8 +642,6 @@ G_TouchSolids(edict_t *ent)
 qboolean
 KillBox(edict_t *ent)
 {
-	trace_t tr;
-
 	if (!ent)
 	{
 		return false;
@@ -646,6 +649,8 @@ KillBox(edict_t *ent)
 
 	while (1)
 	{
+		trace_t tr;
+
 		tr = gi.trace(ent->s.origin, ent->mins, ent->maxs, ent->s.origin,
 				NULL, MASK_PLAYERSOLID);
 

@@ -33,12 +33,12 @@ static byte is_silenced;
 void weapon_grenade_fire(edict_t *ent, qboolean held);
 
 void
-P_ProjectSource(edict_t *ent, vec3_t distance,
-		vec3_t forward, vec3_t right, vec3_t result)
+P_ProjectSource(const edict_t *ent, const vec3_t distance,
+		vec3_t forward, const vec3_t right, vec3_t result)
 {
-	gclient_t *client = ent->client;
-	float     *point  = ent->s.origin;
-	vec3_t     _distance;
+	const gclient_t *client = ent->client;
+	const float *point  = ent->s.origin;
+	vec3_t _distance;
 
 	if (!client)
 	{
@@ -154,7 +154,6 @@ qboolean
 Pickup_Weapon(edict_t *ent, edict_t *other)
 {
 	int index;
-	gitem_t *ammo;
 
 	if (!ent || !other)
 	{
@@ -176,6 +175,8 @@ Pickup_Weapon(edict_t *ent, edict_t *other)
 
 	if (!(ent->spawnflags & DROPPED_ITEM))
 	{
+		const gitem_t *ammo;
+
 		/* give them some ammo with it */
 		ammo = FindItem(ent->item->ammo);
 
@@ -227,8 +228,6 @@ Pickup_Weapon(edict_t *ent, edict_t *other)
 void
 ChangeWeapon(edict_t *ent)
 {
-	int i;
-
 	if (!ent)
 	{
 		return;
@@ -250,6 +249,8 @@ ChangeWeapon(edict_t *ent)
 	/* set visible model */
 	if (ent->s.modelindex == 255)
 	{
+		int i;
+
 		if (ent->client->pers.weapon)
 		{
 			i = ((ent->client->pers.weapon->weapmodel & 0xff) << 8);
@@ -297,9 +298,14 @@ ChangeWeapon(edict_t *ent)
 	}
 }
 
-void
+static void
 NoAmmoWeaponChange(edict_t *ent)
 {
+	if (!ent)
+	{
+		return;
+	}
+
 	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("slugs"))] &&
 		ent->client->pers.inventory[ITEM_INDEX(FindItem("railgun"))])
 	{
@@ -387,9 +393,6 @@ Think_Weapon(edict_t *ent)
 void
 Use_Weapon(edict_t *ent, const gitem_t *item)
 {
-	int ammo_index;
-	gitem_t *ammo_item;
-
 	if (!ent || !item)
 	{
 		return;
@@ -403,6 +406,9 @@ Use_Weapon(edict_t *ent, const gitem_t *item)
 
 	if (item->ammo && !g_select_empty->value && !(item->flags & IT_AMMO))
 	{
+		gitem_t *ammo_item;
+		int ammo_index;
+
 		ammo_item = FindItem(item->ammo);
 		ammo_index = ITEM_INDEX(ammo_item);
 
@@ -464,8 +470,8 @@ Drop_Weapon(edict_t *ent, const gitem_t *item)
 
 static void
 Weapon_Generic2(edict_t *ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST,
-		int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST, int *pause_frames,
-		int *fire_frames, void (*fire)(edict_t *ent))
+		int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST, const int *pause_frames,
+		const int *fire_frames, void (*fire)(edict_t *ent))
 {
 	int n;
 	if (!ent || !fire_frames || !fire)
@@ -656,8 +662,8 @@ Weapon_Generic2(edict_t *ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST,
 
 void
 Weapon_Generic(edict_t *ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST,
-		int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST, int *pause_frames,
-		int *fire_frames, void (*fire)(edict_t *ent))
+		int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST, const int *pause_frames,
+		const int *fire_frames, void (*fire)(edict_t *ent))
 {
 	int oldstate = ent->client->weaponstate;
 
@@ -901,7 +907,7 @@ Weapon_Grenade(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 weapon_grenadelauncher_fire(edict_t *ent)
 {
 	vec3_t offset;
@@ -949,8 +955,13 @@ weapon_grenadelauncher_fire(edict_t *ent)
 void
 Weapon_GrenadeLauncher(edict_t *ent)
 {
-	static int pause_frames[] = {34, 51, 59, 0};
-	static int fire_frames[] = {6, 0};
+	static const int pause_frames[] = {34, 51, 59, 0};
+	static const int fire_frames[] = {6, 0};
+
+	if (!ent)
+	{
+		return;
+	}
 
 	Weapon_Generic(ent, 5, 16, 59, 64, pause_frames,
 			fire_frames, weapon_grenadelauncher_fire);
@@ -964,7 +975,7 @@ Weapon_GrenadeLauncher(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 Weapon_RocketLauncher_Fire(edict_t *ent)
 {
 	vec3_t offset, start;
@@ -1016,8 +1027,13 @@ Weapon_RocketLauncher_Fire(edict_t *ent)
 void
 Weapon_RocketLauncher(edict_t *ent)
 {
-	static int pause_frames[] = {25, 33, 42, 50, 0};
-	static int fire_frames[] = {5, 0};
+	static const int pause_frames[] = {25, 33, 42, 50, 0};
+	static const int fire_frames[] = {5, 0};
+
+	if (!ent)
+	{
+		return;
+	}
 
 	Weapon_Generic(ent, 4, 12, 50, 54, pause_frames,
 			fire_frames, Weapon_RocketLauncher_Fire);
@@ -1031,7 +1047,7 @@ Weapon_RocketLauncher(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 Blaster_Fire(edict_t *ent, vec3_t g_offset, int damage,
 		qboolean hyper, int effect)
 {
@@ -1077,7 +1093,7 @@ Blaster_Fire(edict_t *ent, vec3_t g_offset, int damage,
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 }
 
-void
+static void
 Weapon_Blaster_Fire(edict_t *ent)
 {
 	int damage;
@@ -1103,8 +1119,8 @@ Weapon_Blaster_Fire(edict_t *ent)
 void
 Weapon_Blaster(edict_t *ent)
 {
-	static int pause_frames[] = {19, 32, 0};
-	static int fire_frames[] = {5, 0};
+	static const int pause_frames[] = {19, 32, 0};
+	static const int fire_frames[] = {5, 0};
 
 	if (!ent)
 	{
@@ -1115,14 +1131,9 @@ Weapon_Blaster(edict_t *ent)
 			fire_frames, Weapon_Blaster_Fire);
 }
 
-void
+static void
 Weapon_HyperBlaster_Fire(edict_t *ent)
 {
-	float rotation;
-	vec3_t offset;
-	int effect;
-	int damage;
-
 	if (!ent)
 	{
 		return;
@@ -1149,6 +1160,10 @@ Weapon_HyperBlaster_Fire(edict_t *ent)
 		}
 		else
 		{
+			int effect, damage;
+			float rotation;
+			vec3_t offset;
+
 			rotation = (ent->client->ps.gunframe - 5) * 2 * M_PI / 6;
 			offset[0] = -4 * sin(rotation);
 			offset[1] = 0;
@@ -1214,8 +1229,8 @@ Weapon_HyperBlaster_Fire(edict_t *ent)
 void
 Weapon_HyperBlaster(edict_t *ent)
 {
-	static int pause_frames[] = {0};
-	static int fire_frames[] = {6, 7, 8, 9, 10, 11, 0};
+	static const int pause_frames[] = {0};
+	static const int fire_frames[] = {6, 7, 8, 9, 10, 11, 0};
 
 	if (!ent)
 	{
@@ -1234,7 +1249,7 @@ Weapon_HyperBlaster(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 Machinegun_Fire(edict_t *ent)
 {
 	int i;
@@ -1345,8 +1360,8 @@ Machinegun_Fire(edict_t *ent)
 void
 Weapon_Machinegun(edict_t *ent)
 {
-	static int pause_frames[] = {23, 45, 0};
-	static int fire_frames[] = {4, 5, 0};
+	static const int pause_frames[] = {23, 45, 0};
+	static const int fire_frames[] = {4, 5, 0};
 
 	if (!ent)
 	{
@@ -1357,14 +1372,13 @@ Weapon_Machinegun(edict_t *ent)
 			fire_frames, Machinegun_Fire);
 }
 
-void
+static void
 Chaingun_Fire(edict_t *ent)
 {
 	int i;
 	int shots;
 	vec3_t start;
 	vec3_t forward, right, up;
-	float r, u;
 	vec3_t offset;
 	int damage;
 	int kick = 2;
@@ -1483,6 +1497,8 @@ Chaingun_Fire(edict_t *ent)
 
 	for (i = 0; i < shots; i++)
 	{
+		float r, u;
+
 		/* get start / end positions */
 		AngleVectors(ent->client->v_angle, forward, right, up);
 		r = 7 + crandom() * 4;
@@ -1512,8 +1528,8 @@ Chaingun_Fire(edict_t *ent)
 void
 Weapon_Chaingun(edict_t *ent)
 {
-	static int pause_frames[] = {38, 43, 51, 61, 0};
-	static int fire_frames[] = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};
+	static const int pause_frames[] = {38, 43, 51, 61, 0};
+	static const int fire_frames[] = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};
 
 	if (!ent)
 	{
@@ -1531,7 +1547,7 @@ Weapon_Chaingun(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 weapon_shotgun_fire(edict_t *ent)
 {
 	vec3_t start;
@@ -1594,8 +1610,8 @@ weapon_shotgun_fire(edict_t *ent)
 void
 Weapon_Shotgun(edict_t *ent)
 {
-	static int pause_frames[] = {22, 28, 34, 0};
-	static int fire_frames[] = {8, 9, 0};
+	static const int pause_frames[] = {22, 28, 34, 0};
+	static const int fire_frames[] = {8, 9, 0};
 
 	if (!ent)
 	{
@@ -1606,7 +1622,7 @@ Weapon_Shotgun(edict_t *ent)
 			weapon_shotgun_fire);
 }
 
-void
+static void
 weapon_supershotgun_fire(edict_t *ent)
 {
 	vec3_t start;
@@ -1690,8 +1706,8 @@ weapon_supershotgun_fire(edict_t *ent)
 void
 Weapon_SuperShotgun(edict_t *ent)
 {
-	static int pause_frames[] = {29, 42, 57, 0};
-	static int fire_frames[] = {7, 0};
+	static const int pause_frames[] = {29, 42, 57, 0};
+	static const int fire_frames[] = {7, 0};
 
 	if (!ent)
 	{
@@ -1710,7 +1726,7 @@ Weapon_SuperShotgun(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 weapon_railgun_fire(edict_t *ent)
 {
 	vec3_t start;
@@ -1769,8 +1785,8 @@ weapon_railgun_fire(edict_t *ent)
 void
 Weapon_Railgun(edict_t *ent)
 {
-	static int pause_frames[] = {56, 0};
-	static int fire_frames[] = {4, 0};
+	static const int pause_frames[] = {56, 0};
+	static const int fire_frames[] = {4, 0};
 
 	if (!ent)
 	{
@@ -1789,13 +1805,12 @@ Weapon_Railgun(edict_t *ent)
  * ======================================================================
  */
 
-void
+static void
 weapon_bfg_fire(edict_t *ent)
 {
-	vec3_t offset, start;
-	vec3_t forward, right;
-	int damage;
+	vec3_t offset, start, forward, right;
 	float damage_radius = 1000;
+	int damage;
 
 	if (!ent)
 	{
@@ -1813,6 +1828,11 @@ weapon_bfg_fire(edict_t *ent)
 
 	if (ent->client->ps.gunframe == 9)
 	{
+		AngleVectors(ent->client->v_angle, forward, right, NULL);
+
+		VectorSet(offset, 8, 8, ent->viewheight - 8);
+		P_ProjectSource(ent, offset, forward, right, start);
+
 		/* send muzzle flash */
 		gi.WriteByte(svc_muzzleflash);
 		gi.WriteShort(ent - g_edicts);
@@ -1864,8 +1884,8 @@ weapon_bfg_fire(edict_t *ent)
 void
 Weapon_BFG(edict_t *ent)
 {
-	static int pause_frames[] = {39, 45, 50, 55, 0};
-	static int fire_frames[] = {9, 17, 0};
+	static const int pause_frames[] = {39, 45, 50, 55, 0};
+	static const int fire_frames[] = {9, 17, 0};
 
 	if (!ent)
 	{

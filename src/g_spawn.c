@@ -90,7 +90,7 @@ ED_CallSpawn(edict_t *ent)
 	gi.dprintf("%s doesn't have a spawn function\n", ent->classname);
 }
 
-char *
+static char *
 ED_NewString(const char *string)
 {
 	char *newb, *new_p;
@@ -363,15 +363,7 @@ SpawnEntities(const char *mapname, char *entities, const char *spawnpoint)
 
 	skill_level = floor(skill->value);
 
-	if (skill_level < 0)
-	{
-		skill_level = 0;
-	}
-
-	if (skill_level > 3)
-	{
-		skill_level = 3;
-	}
+	skill_level = Q_clamp(skill_level, SKILL_EASY, SKILL_HARDPLUS);
 
 	if (skill->value != skill_level)
 	{
@@ -448,12 +440,12 @@ SpawnEntities(const char *mapname, char *entities, const char *spawnpoint)
 			}
 			else
 			{
-				if (((skill->value == 0) &&
+				if (((skill->value == SKILL_EASY) &&
 					 (ent->spawnflags & SPAWNFLAG_NOT_EASY)) ||
-					((skill->value == 1) &&
+					((skill->value == SKILL_MEDIUM) &&
 					 (ent->spawnflags & SPAWNFLAG_NOT_MEDIUM)) ||
-					(((skill->value == 2) ||
-					  (skill->value == 3)) &&
+					(((skill->value == SKILL_HARD) ||
+					  (skill->value == SKILL_HARDPLUS)) &&
 					 (ent->spawnflags & SPAWNFLAG_NOT_HARD))
 					)
 				{
@@ -832,4 +824,3 @@ SP_worldspawn(edict_t *ent)
 	/* 63 testing */
 	gi.configstring(CS_LIGHTS + 63, "a");
 }
-
